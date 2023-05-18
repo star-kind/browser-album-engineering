@@ -21,7 +21,7 @@ To package the program as a JAR file, follow these steps:
 javac ImageGalleryPanel.java
 ```
 
-2. Create a text file named `Manifest.txt` and specify the program's entry class in it. For example:
+2. Create a text file named `Manifest.txt` and specify the program's entry class in it. As follows:
 
 ```
 Main-Class: ImageGalleryPanel
@@ -60,7 +60,7 @@ Replace `your-app.jar` with the desired name for your JAR file, and `*.class` in
 javac ImageGalleryPanel.java
 ```
 
-2. 创建一个名为 `Manifest.txt` 的文本文件，并在其中指定程序的入口类，例如：
+2. 创建一个名为 `Manifest.txt` 的文本文件，并在其中指定程序的入口类，如下：
 
 ```
 Main-Class: ImageGalleryPanel
