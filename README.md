@@ -35,6 +35,12 @@ jar -cvmf ./Manifest.txt ../your-app.jar *.class
 
 Replace `your-app.jar` with the desired name for your JAR file, and `*.class` includes all compiled `.class` files.
 
+4. Run the JAR program with the following command:
+
+```
+java -jar ../app.jar
+```
+
 <hr>
 
 # 图片阅览器程序
@@ -69,7 +75,13 @@ Main-Class: ImageGalleryPanel
 3. 使用以下命令将程序打包为 JAR 文件：
 
 ```
-jar -cvmf ./Manifest.txt ../your-app.jar *.class
+jar -cvmf ./Manifest.txt ../app.jar *.class
 ```
 
-将 `your-app.jar` 替换为你想要的 JAR 文件的名称，`*.class` 表示包含所有编译后的 `.class` 文件。
+`*.class` 表示包含所有编译后的 `.class` 文件。
+
+4. 使用以下命令运行 JAR 程序：
+
+```
+java -jar ../app.jar
+```

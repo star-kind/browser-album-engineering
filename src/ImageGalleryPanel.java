@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ImageGalleryPanel extends JPanel {
+  private int checkSlideDelayTime = 3000;// 幻灯片切换间隔时间（单位：毫秒）
   private JLabel imageLabel;
   private File[] imageFiles;
   private int currentIndex;
@@ -331,7 +332,6 @@ public class ImageGalleryPanel extends JPanel {
     dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
     dialog.setLocationRelativeTo(this);
     dialog.setContentPane(listPanel);
-
     dialog.setVisible(true);
   }
 
@@ -390,7 +390,7 @@ public class ImageGalleryPanel extends JPanel {
       Thread slideshowThread = new Thread(new Runnable() {
         @Override
         public void run() {
-          int slideshowInterval = 2000; // 幻灯片切换间隔时间（单位：毫秒）
+          int slideshowInterval = checkSlideDelayTime;
           try {
             while (slideshowRunning == true) { // 检查标志位是否为true
               System.out.println("while.slideshowRunning: " + slideshowRunning);
@@ -407,46 +407,26 @@ public class ImageGalleryPanel extends JPanel {
   }
 
   private void openImage() {
-    // 创建文件选择器
-    JFileChooser fileChooser = new JFileChooser();
+    JFileChooser fileChooser = new JFileChooser();// 创建文件选择器
     fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    int result = fileChooser.showOpenDialog(this); // 显示文件选择对话框
 
-    // 显示文件选择对话框
-    int result = fileChooser.showOpenDialog(this);
+    if (result == JFileChooser.APPROVE_OPTION) {// 如果选择了文件
+      File selectedFile = fileChooser.getSelectedFile();// 获取选中的文件
+      File parentDirectory = selectedFile.getParentFile(); // 获取选中文件的父目录
+      File[] filesInDirectory = parentDirectory.listFiles();// 获取父目录中的所有文件
+      List<File> imageFileList = new ArrayList<>();// 创建用于存储图片文件的列表
 
-    // 如果选择了文件
-    if (result == JFileChooser.APPROVE_OPTION) {
-      // 获取选中的文件
-      File selectedFile = fileChooser.getSelectedFile();
-
-      // 获取选中文件的父目录
-      File parentDirectory = selectedFile.getParentFile();
-
-      // 获取父目录中的所有文件
-      File[] filesInDirectory = parentDirectory.listFiles();
-
-      // 创建用于存储图片文件的列表
-      List<File> imageFileList = new ArrayList<>();
-
-      // 遍历父目录中的所有文件
-      for (File file : filesInDirectory) {
-        // 检查文件是否为图片文件
-        if (isImageFile(file)) {
-          // 将图片文件添加到列表中
-          imageFileList.add(file);
+      for (File file : filesInDirectory) { // 遍历父目录中的所有文件
+        if (isImageFile(file)) {// 检查文件是否为图片文件
+          imageFileList.add(file); // 将图片文件添加到列表中
         }
       }
 
-      // 如果存在图片文件
-      if (!imageFileList.isEmpty()) {
-        // 将图片文件列表转换为数组
-        imageFiles = imageFileList.toArray(new File[0]);
-
-        // 重置当前索引为第一个图片
-        currentIndex = 0;
-
-        // 显示图片
-        showImage();
+      if (!imageFileList.isEmpty()) {// 如果存在图片文件
+        imageFiles = imageFileList.toArray(new File[0]);// 将图片文件列表转换为数组
+        currentIndex = 0;// 重置当前索引为第一个图片
+        showImage();// 显示图片
       }
     }
   }
@@ -474,28 +454,39 @@ public class ImageGalleryPanel extends JPanel {
     // 获取当前索引位置的图片文件
     File imageFile = imageFiles[currentIndex];
     System.out.println("show_image: " + imageFile.getName());
-    try {
-      // 检测文件类型
-      String fileType = Files.probeContentType(imageFile.toPath());
 
-      if (fileType != null && fileType.equals("image/gif")) {
-        // 处理 GIF 图片
-        loadGif(imageFile.getAbsolutePath());
-      } else {
-        // 处理其他类型图片
-        // 使用 ImageIO 读取图片文件
-        BufferedImage image = ImageIO.read(imageFile);
-        // 缩放图片，并设置平滑缩放模式
-        Image scaledImage = scaleImage(image);
-        // 将缩放后的图片设置为 imageLabel 的图标
-        imageLabel.setIcon(new ImageIcon(scaledImage));
+    // 通过SwingWorker将图片加载和显示的逻辑放在单独的线程中来改善性能
+    SwingWorker<BufferedImage, Void> worker = new SwingWorker<BufferedImage, Void>() {
+      @Override
+      protected BufferedImage doInBackground() throws Exception {
+        // 检测文件类型
+        String fileType = Files.probeContentType(imageFile.toPath());
+        if (fileType != null && fileType.equals("image/gif")) {
+          loadGif(imageFile.getAbsolutePath()); // 处理 GIF 图片
+        } else {
+          return ImageIO.read(imageFile); // 返回读取到的图片
+        }
+        return null;
       }
 
-      // 更新图片标签和面板标题
-      updateImageLabel(imageFile);
-    } catch (IOException ex) {
-      System.out.println("Error loading image: " + ex.getMessage());
-    }
+      @Override
+      protected void done() {
+        try {
+          BufferedImage image = get();
+          if (image != null) {
+            // 缩放图片，并设置平滑缩放模式
+            Image scaledImage = scaleImage(image);
+            // 将缩放后的图片设置为 imageLabel 的图标
+            imageLabel.setIcon(new ImageIcon(scaledImage));
+          }
+          updateImageLabel(imageFile); // 更新图片标签和面板标题
+        } catch (Exception ex) {
+          System.out.println("Error loading image: " + ex.getMessage());
+        }
+      }
+    };
+
+    worker.execute();
   }
 
   private void loadGif(String filePath) {
@@ -518,7 +509,6 @@ public class ImageGalleryPanel extends JPanel {
 
     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
     frame.setTitle(imagePath);// 将路径设置为面板的标题
-    // TODO 让面板的标题的文字的大小更大一点
     // 创建一个新的Font对象，设置字体为当前字体，但是字号更大
     Font currentFont = frame.getFont();
     Font biggerFont = currentFont.deriveFont(currentFont.getSize() + 4f); // 增加4个字号
