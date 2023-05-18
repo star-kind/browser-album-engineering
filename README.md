@@ -1,53 +1,75 @@
-# Image Viewer App
+# Image Viewer Program
 
-The Image Viewer App is a Java Swing-based application that allows you to browse and view images, with support for slideshow mode. It has the following features and requirements:
-
-- Java version required: 16.0.1
+This is an image viewer program based on Java Swing, allowing users to browse and view images.
 
 ## Features
 
-- Slideshow Mode: Supports displaying images in a slideshow format, automatically transitioning to the next image.
-- Automatic Opening of Image Directory: Supports automatically opening and displaying all images in the specified directory, including images in subfolders.
-- No Support for GIF Animation: The image viewer app does not support displaying GIF animated images.
-- Keyboard Shortcuts for Image Navigation: Keyboard shortcuts such as left/right arrows, up/down arrows, page up, and page down can be used to navigate to the previous or next image.
+- Java version: "16.0.1" (Make sure you have installed and configured the corresponding JDK environment).
+- Supports slideshow mode.
+- Automatically opens all images in the specified directory (including subfolders).
+- Does not support GIF animation display.
+- Supports image scaling.
+- Shortcut keys to switch to the previous and next image: Left and Right arrows, Up and Down arrows, Page Up and Page Down.
 
-## Usage Instructions
+## How to Package as JAR File
 
-1. Install Java 16.0.1 or a higher version.
-2. Download and compile the project.
-3. Run the main program, specifying the image directory as a parameter to start.
-4. The image viewer app will automatically load all images in the specified directory and open the main interface.
-5. Use the provided keyboard shortcuts to navigate through the images and enjoy browsing them.
+To package the program as a JAR file, follow these steps:
 
-## Notes
+1. Compile the program into `.class` files using the following command:
 
-- The app currently supports viewing static images only and does not support GIF animated images.
-- If the image directory contains a large number of image files, there might be a slight delay when transitioning to the next image.
+```
+javac ImageGalleryPanel.java
+```
+
+2. Create a text file named `Manifest.txt` and specify the program's entry class in it. For example:
+
+```
+Main-Class: ImageGalleryPanel
+```
+
+3. Package the program as a JAR file using the following command:
+
+```
+jar -cvmf ./Manifest.txt ../your-app.jar *.class
+```
+
+Replace `your-app.jar` with the desired name for your JAR file, and `*.class` includes all compiled `.class` files.
 
 <hr>
 
 # 图片阅览器程序
 
-该图片阅览器程序是一个基于 Java Swing 开发的应用，用于浏览和幻灯片展示图片。它具有以下功能和要求：
-
-- Java 版本要求：16.0.1
+这是一个基于 Java Swing 的图片阅览器程序，允许用户浏览和查看图片。
 
 ## 功能特点
 
-- 幻灯片模式：支持以幻灯片方式展示图片，自动切换到下一张图片。
-- 自动打开图片目录：支持自动打开指定目录下的全部图片，包括子文件夹中的图片。
-- GIF 动态图片不支持：该图片阅览器程序不支持显示 GIF 动态图片。
-- 快捷键操作：可以使用快捷键进行上一张和下一张图片的切换，包括左右箭头、上下箭头、Page Up 和 Page Down 键。
+- Java 版本： "16.0.1"（请确保已安装和配置相应版本的 JDK 环境）。
+- 幻灯片模式支持。
+- 自动打开指定目录下的全部图片（包括子文件夹）。
+- 不支持 GIF 动态显示。
+- 支持图片缩放。
+- 切换上一张和下一张图片的快捷键：左右箭头、上下箭头、Page Up 和 Page Down。
 
-## 使用说明
+## 如何打包为 JAR 文件
 
-1. 安装 Java 16.0.1 或更高版本。
-2. 下载并编译该项目。
-3. 运行主程序，并指定图片目录作为参数启动。
-4. 图片阅览器程序将会自动加载指定目录下的所有图片，并进入主界面。
-5. 使用快捷键进行图片切换，并尽情享受图片浏览的乐趣。
+要将程序打包为 JAR 文件，请按照以下步骤操作：
 
-## 注意事项
+1. 使用以下命令将程序编译为 `.class` 文件：
 
-- 该程序目前仅支持静态图片的浏览，不支持 GIF 动态图片。
-- 若图片目录中包含大量图片文件，切换到下一张图片可能会有一定的加载延迟。
+```
+javac ImageGalleryPanel.java
+```
+
+2. 创建一个名为 `Manifest.txt` 的文本文件，并在其中指定程序的入口类，例如：
+
+```
+Main-Class: ImageGalleryPanel
+```
+
+3. 使用以下命令将程序打包为 JAR 文件：
+
+```
+jar -cvmf ./Manifest.txt ../your-app.jar *.class
+```
+
+将 `your-app.jar` 替换为你想要的 JAR 文件的名称，`*.class` 表示包含所有编译后的 `.class` 文件。
