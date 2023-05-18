@@ -331,6 +331,7 @@ public class ImageGalleryPanel extends JPanel {
     dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
     dialog.setLocationRelativeTo(this);
     dialog.setContentPane(listPanel);
+
     dialog.setVisible(true);
   }
 
@@ -517,7 +518,11 @@ public class ImageGalleryPanel extends JPanel {
 
     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
     frame.setTitle(imagePath);// 将路径设置为面板的标题
-    // TODO 让标题文字的大小更大一点
+    // TODO 让面板的标题的文字的大小更大一点
+    // 创建一个新的Font对象，设置字体为当前字体，但是字号更大
+    Font currentFont = frame.getFont();
+    Font biggerFont = currentFont.deriveFont(currentFont.getSize() + 4f); // 增加4个字号
+    frame.setFont(biggerFont);
   }
 
   private Image scaleImage(BufferedImage image) {
