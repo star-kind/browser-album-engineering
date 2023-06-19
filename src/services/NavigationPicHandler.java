@@ -13,10 +13,10 @@ public class NavigationPicHandler {
       String path = imageFilesArr[index];
       obj.getImageValObj().setCurrentOrder(index);
 
-      FrameValueObject frameJO = photo.openPhoto(obj, path); // TODO openPhoto
-
+      FrameValueObject frameJO = photo.openPhoto(obj, path);
       System.out.println(this + " showByImageFlag index=" + index);
       System.out.println(this + " showByImageFlag path=" + path);
+
       return frameJO;
     }
     return null;

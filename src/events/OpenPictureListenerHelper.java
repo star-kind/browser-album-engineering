@@ -21,6 +21,5 @@ public class OpenPictureListenerHelper {
       System.out.println(this.getClass() + " openPicture 未打开图片");
       return null;
     }
-
   }
 }

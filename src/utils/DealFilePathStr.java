@@ -29,6 +29,12 @@ public class DealFilePathStr {
     return imgList.toArray(new String[0]);
   }
 
+  /**
+   * 按名称对 File[] 排序
+   * 
+   * @param filesArr
+   * @return File[]
+   */
   public File[] orderByName(File[] filesArr) {
     List<File> fileList = Arrays.asList(filesArr);
 
@@ -42,7 +48,6 @@ public class DealFilePathStr {
         return o1.getName().compareTo(o2.getName());
       }
     });
-
     return filesArr;
   }
 

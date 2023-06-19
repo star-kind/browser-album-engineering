@@ -65,6 +65,16 @@ public class Constants {
   public static final String img_size_height_key = "height";
 
   /**
+   * 第1张
+   */
+  public static final Integer first_picture = 0;
+
+  /**
+   * 末1张
+   */
+  public static final Integer last_picture = 1;
+
+  /**
    * Conflate 合成
    * 
    * @param folderPath

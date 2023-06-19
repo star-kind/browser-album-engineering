@@ -23,9 +23,12 @@ public class PicsCollectListener {
 
   public void warnByJudge(String[] imagesUrlArray, FrameValueObject obj) {
     if (imagesUrlArray == null || imagesUrlArray.length == 0) {
+      String btnString = "Confirm";
+      int width = 200;
+      int height = 120;
       DialogComponent dialog = new DialogComponent();
-      dialog.getWarnDialog(obj.getBasePanel(), Constants.warn_dialog_title,
-          Constants.warn_dialog_msg);
+
+      dialog.getCustomDialog(btnString, null, Constants.warn_dialog_title, Constants.warn_dialog_msg, width, height);
       return;
     }
   }

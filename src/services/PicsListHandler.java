@@ -51,7 +51,7 @@ public class PicsListHandler {
 
   public void showingDialog(JPanel listPanel, FrameValueObject obj) {
     DialogComponent dialog = new DialogComponent();
-    dialog.getShowingDialog(listPanel, obj, Constants.list_dialog_title);
+    dialog.getShowInfoDialog(listPanel, Constants.list_dialog_title, obj.getBasePanel());
   }
 
   // 新方法：绑定键盘事件

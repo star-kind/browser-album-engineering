@@ -29,7 +29,7 @@ public class PreponderantFrame {
 
     bindZoomInEvent();
     bindZoomOutEvent();
-    bindZoomReconversionEvent();// TODO 触发快捷键之时无响应(小键盘数字无法触发)
+    bindZoomReconversionEvent();
 
     bindPrevNavEvent();
     bindNextNavEvent();
@@ -46,6 +46,8 @@ public class PreponderantFrame {
     bindJumpFirstOrLastEvent();
 
     bindCloseAllDialogEvent();
+
+    bindInputPathEvent();
   }
 
   public void initialize(MenuBarComponent menuBar) {
@@ -96,7 +98,6 @@ public class PreponderantFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         open.openPicture(frameData);
-        System.out.println(this + " =CurrentOrder= " + frameData.getImageValObj().getCurrentOrder());
       }
     });
 
@@ -161,68 +162,37 @@ public class PreponderantFrame {
     panel.setFocusable(true);
   }
 
-  // public void bindZoomReconversionEvent() {
-  // JPanel panel = frameData.basePanel;
-  // ZoomImgListener listener = new ZoomImgListener();
-
-  // GetTargetMenuItem t = new GetTargetMenuItem();
-  // JMenuItem menuItem = t.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
-  // MenuBarConstants.MENU_ITEM_ZOOM_RECONVERION, frameData);
-
-  // menuItem.addActionListener(new ActionListener() {
-  // @Override
-  // public void actionPerformed(ActionEvent e) {
-  // listener.reconversionImageSize(frameData);
-  // }
-  // });
-
-  // panel.addKeyListener(new KeyAdapter() {
-  // @Override
-  // public void keyPressed(KeyEvent e) {
-  // int keyCode = e.getKeyCode();
-  // if (keyCode == KeyEvent.VK_0 && e.isControlDown()) {
-  // System.out.println(this + " bindZoomReconversionEvent");
-  // listener.reconversionImageSize(frameData);
-  // }
-  // }
-  // });
-  // // 确保面板获得焦点
-  // panel.requestFocusInWindow();
-  // panel.setFocusable(true);
-  // }
-
   public void bindZoomReconversionEvent() {
-    String key = "RECONVERION";
-    KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_DOWN_MASK);
-
+    JPanel panel = frameData.basePanel;
     ZoomImgListener listener = new ZoomImgListener();
-    GetTargetMenuItem target = new GetTargetMenuItem();
 
-    JMenuItem item = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    GetTargetMenuItem t = new GetTargetMenuItem();
+    JMenuItem menuItem = t.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
         MenuBarConstants.MENU_ITEM_ZOOM_RECONVERION, frameData);
 
-    ActionListener actListen = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        listener.reconversionImageSize(frameData);
-      }
-    };
-
-    item.addActionListener(actListen);
-    item.setAccelerator(keyStroke);
-    item.getActionMap().put(key, new AbstractAction() {
+    menuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         listener.reconversionImageSize(frameData);
       }
     });
 
-    // 给JMenuItem请求焦点
-    item.requestFocusInWindow();
-    // 修改输入映射参数为 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
-    item.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(keyStroke, key);
-    // item.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
+    panel.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_0 && e.isControlDown()) {
+          listener.reconversionImageSize(frameData);
 
+        } else if (keyCode == KeyEvent.VK_NUMPAD0 && e.isControlDown()) {
+          listener.reconversionImageSize(frameData);
+
+        }
+      }
+    });
+    // 确保面板获得焦点
+    panel.requestFocusInWindow();
+    panel.setFocusable(true);
   }
 
   public void bindPrevNavEvent() {
@@ -374,11 +344,12 @@ public class PreponderantFrame {
     // 设置快捷键 Delete
     KeyStroke deleteKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0);
     String key = "DELETE";
+    DeletePhotoListener listener = new DeletePhotoListener();
 
     ActionListener deleteListener = new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " bindDeleteEvent");
+        listener.deletePhoto(frameData);
       }
     };
 
@@ -387,7 +358,7 @@ public class PreponderantFrame {
     deleteMenuItem.getActionMap().put(key, new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " bindDeleteEvent");
+        listener.deletePhoto(frameData);
       }
     });
 
@@ -399,14 +370,16 @@ public class PreponderantFrame {
     JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
         MenuBarConstants.MENU_ITEM_SELECT_DIRECTORY, frameData);
 
-    // 设置快捷键 Delete
+    // 设置快捷键
     KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK);
     String key = "SelectOneDirectory";
+
+    SelectDirectoryListener select = new SelectDirectoryListener();
 
     ActionListener selectListener = new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " bind Select Event");
+        select.listenerCenter(frameData);
       }
     };
 
@@ -415,29 +388,60 @@ public class PreponderantFrame {
     menuItem.getActionMap().put(key, new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " bind Select Event");
+        select.listenerCenter(frameData);
       }
     });
 
     menuItem.getInputMap().put(keyStroke, key);
   }
 
-  public void bindJumpFirstOrLastEvent() {// TODO 跳转到首张或末张图片
+  public void bindInputPathEvent() {
+    GetTargetMenuItem target = new GetTargetMenuItem();
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+        MenuBarConstants.MENU_ITEM_INPUT_PATH, frameData);
+
+    // 设置快捷键
+    KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK);
+    String key = "INPUT_PATH";
+
+    InputPathListener listener = new InputPathListener();
+
+    ActionListener action = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        listener.showInputPathDialog(frameData);
+      }
+    };
+
+    menuItem.addActionListener(action);
+    menuItem.setAccelerator(keyStroke);
+    menuItem.getActionMap().put(key, new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        listener.showInputPathDialog(frameData);
+      }
+    });
+
+    menuItem.getInputMap().put(keyStroke, key);
+  }
+
+  public void bindJumpFirstOrLastEvent() {
     JPanel panel = frameData.basePanel;
+    JumpFirstOrLastListener listener = new JumpFirstOrLastListener();
 
     panel.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_HOME) {
-          System.out.println(this + " bindJumpFirstOrLastEvent 跳转到首张");
+          listener.jumpByFlag(frameData, Constants.first_picture);
         } else if (keyCode == KeyEvent.VK_END) {
-          System.out.println(this + " bindJumpFirstOrLastEvent 跳转到末张图片");
+          listener.jumpByFlag(frameData, Constants.last_picture);
         }
       }
     });
-    // 确保面板获得焦点
-    panel.requestFocusInWindow();
+
+    panel.requestFocusInWindow();// 确保面板获得焦点
     panel.setFocusable(true);
   }
 
@@ -453,8 +457,8 @@ public class PreponderantFrame {
         }
       }
     });
-    // 确保面板获得焦点
-    panel.requestFocusInWindow();
+
+    panel.requestFocusInWindow(); // 确保面板获得焦点
     panel.setFocusable(true);
   }
 }

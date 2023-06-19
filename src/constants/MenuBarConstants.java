@@ -5,6 +5,7 @@ public class MenuBarConstants {
   public static final String MENU_ITEM_OPEN_PICTURE = "Open Picture";
   public static final String MENU_ITEM_EXAMINE_LIST = "Examine List";
   public static final String MENU_ITEM_SELECT_DIRECTORY = "Select Directory";
+  public static final String MENU_ITEM_INPUT_PATH = "Enter Path";
 
   /**
    * 开播幻灯片
@@ -44,6 +45,7 @@ public class MenuBarConstants {
   public static final String MENU_ITEM_DELETE = "Delete";
 
   public static String[] MENU_ITEM_ARR = { MENU_ITEM_OPEN_PICTURE, MENU_ITEM_EXAMINE_LIST, MENU_ITEM_SELECT_DIRECTORY,
+      MENU_ITEM_INPUT_PATH,
       MENU_ITEM_SLIDE_START,
       MENU_ITEM_SLIDE_STOP, MENU_ITEM_PREVIOUS,
       MENU_ITEM_NEXT, MENU_ITEM_ZOOM_IN, MENU_ITEM_ZOOM_OUT, MENU_ITEM_ZOOM_RECONVERION, MENU_ITEM_DELETE };

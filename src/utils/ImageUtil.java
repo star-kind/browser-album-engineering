@@ -28,7 +28,6 @@ public class ImageUtil {
   public boolean isImageFile(File file) {
     String name = file.getName();
     String extension = name.substring(name.lastIndexOf('.') + 1).toLowerCase();
-
     // 检查文件扩展名是否为图片格式，你可以根据需要添加其他格式的判断条件
     return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png") || extension.equals("gif");
   }
