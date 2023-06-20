@@ -6,13 +6,13 @@ import services.*;
 public class OpenPictureListenerHelper {
   public FrameValueObject openPicture(FrameValueObject obj) {
     FileChooserHandler fileHandler = new FileChooserHandler();
-    PhotoManifestHandler photo = new PhotoManifestHandler();
+    OpenPhotoHandler photohHandler = new OpenPhotoHandler();
     ImageValueObject imgObj = fileHandler.openFileChooser();
 
     if (imgObj != null) {
       String imagePath = imgObj.getCurrentPath();
       if (imagePath != null) {
-        photo.openPhoto(obj, imagePath);
+        photohHandler.openPhoto(obj, imagePath);
       }
 
       obj.setImageValObj(imgObj);

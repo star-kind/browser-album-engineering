@@ -12,28 +12,28 @@ import javax.swing.JPanel;
 import entities.FrameValueObject;
 import entities.ImageValueObject;
 import services.InputPathHandler;
-import services.PhotoManifestHandler;
+import services.OpenPhotoHandler;
 
 public class SelectDirectoryListener {
   public void listenerCenter(FrameValueObject frameVO) {
-    String dirPath = pickUpDirectory(frameVO.getFrame());
+    String directoryPath = pickUpDirectory(frameVO.getFrame());
 
-    if (dirPath == null || ("".equals(dirPath))) {
-      String errStr = " There are no pictures in this folder.";
-      System.out.println(this + errStr);
+    if (directoryPath == null || ("".equals(directoryPath))) {
+      System.out.println(this + " 未得到 directoryPath 的值");
       return;
     }
-    System.out.println(this + " dirPath=" + dirPath);
+    System.out.println(this + " 业已得到 dirPath=" + directoryPath);
 
-    ImageValueObject imgVO = getImgVOByDirectory(dirPath, frameVO);
+    ImageValueObject imgVO = getImgVOByDirectory(directoryPath, frameVO);
     if (imgVO == null) {
-      System.out.println(this + " ImageValueObject had nothing");
+      System.out.println(this + " directoryPath 目录下没有图片");
       showRemindText(frameVO.getFrame());
+      frameVO.setImageValObj(null);
       return;
     }
 
     frameVO.setImageValObj(imgVO);
-    PhotoManifestHandler photoHandler = new PhotoManifestHandler();
+    OpenPhotoHandler photoHandler = new OpenPhotoHandler();
     photoHandler.openPhoto(frameVO, imgVO.getCurrentPath());
   }
 

@@ -2,14 +2,19 @@ package services;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+
 import components.DialogComponent;
 import entities.FrameValueObject;
 import entities.ImageValueObject;
@@ -23,7 +28,7 @@ public class InputPathHandler {
 
     DealFilePathStr deal = new DealFilePathStr();
     File[] imageFilesArr = imageFileList.toArray(new File[0]);
-    imageFilesArr = deal.orderByName(imageFilesArr);
+    imageFilesArr = deal.listSort(imageFilesArr);
 
     String[] strPathArr = deal.filesArr2StrArr(imageFilesArr);
     if (strPathArr.length < 1) {
@@ -60,19 +65,33 @@ public class InputPathHandler {
   public void showErrorDialog(String errInfo, Component parenComponent, String title) {
     DialogComponent component = new DialogComponent();
     String btnString = "Close";
-    int width = 200;
+    int width = 330;
     int height = 120;
     component.getCustomDialog(btnString, parenComponent, title, errInfo, width, height);
   }
 
   public void showOptPane(FrameValueObject frameJO, JButton openButton, JTextField directoryField) {
+
     JPanel selectDirectoryPanel = new JPanel(new BorderLayout());
     selectDirectoryPanel.add(directoryField, BorderLayout.CENTER);
     selectDirectoryPanel.add(openButton, BorderLayout.EAST);
-    String titleStr = "please input directory path";
+    String titleStr = "Please Input A Directory Path";
+    String[] options = { "关闭" };
 
-    JOptionPane.showMessageDialog(frameJO.getFrame(), selectDirectoryPanel,
-        titleStr,
-        JOptionPane.PLAIN_MESSAGE);
+    JOptionPane optionPane = new JOptionPane(selectDirectoryPanel, JOptionPane.PLAIN_MESSAGE,
+        JOptionPane.DEFAULT_OPTION, null, options, options[0]);
+    optionPane.setPreferredSize(new Dimension(500, 100)); // 设置弹窗的尺寸
+
+    // 创建一个新的字体对象，设置输入框中文字的尺寸
+    Font textFieldFont = new Font("Arial", Font.PLAIN, 20);
+    directoryField.setFont(textFieldFont);
+
+    // 设置弹窗中的文字尺寸
+    UIManager.put("OptionPane.messageFont", new Font("Arial", Font.BOLD, 20));
+    UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.PLAIN, 20));
+
+    JDialog dialog = optionPane.createDialog(frameJO.getFrame(), titleStr);
+    dialog.setVisible(true);
   }
+
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import java.io.File;
-
 import constants.Constants;
 
 public class ImageUtil {
@@ -42,4 +41,5 @@ public class ImageUtil {
     mp.put(Constants.img_size_height_key, originalHeight);
     return mp;
   }
+
 }

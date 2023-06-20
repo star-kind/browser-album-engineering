@@ -3,7 +3,7 @@ package events;
 import constants.Constants;
 import entities.FrameValueObject;
 import entities.ImageValueObject;
-import services.PhotoManifestHandler;
+import services.OpenPhotoHandler;
 
 public class JumpFirstOrLastListener {
   public void jumpByFlag(FrameValueObject frameDO, int flag) {
@@ -13,7 +13,7 @@ public class JumpFirstOrLastListener {
       return;
     }
 
-    PhotoManifestHandler photoHandler = new PhotoManifestHandler();
+    OpenPhotoHandler photoHandler = new OpenPhotoHandler();
     if (flag == Constants.first_picture) {
       String path = imgJO.getCurrentPathsArray()[0];
       photoHandler.openPhoto(frameDO, path);

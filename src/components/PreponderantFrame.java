@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import entities.*;
 import utils.GetTargetMenuItem;
@@ -34,10 +36,10 @@ public class PreponderantFrame {
     bindPrevNavEvent();
     bindNextNavEvent();
 
-    bindShowImageListEvent();
-
     bindStartPlayEvent();
     bindStopPlayEvent();
+
+    bindShowImageListEvent();
 
     bindDeleteEvent();
 
@@ -48,6 +50,8 @@ public class PreponderantFrame {
     bindCloseAllDialogEvent();
 
     bindInputPathEvent();
+
+    bindFileInfoCheckEvent();
   }
 
   public void initialize(MenuBarComponent menuBar) {
@@ -454,6 +458,33 @@ public class PreponderantFrame {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_ESCAPE) {
           System.out.println(this + " bind Close All Dialog Event");
+        }
+      }
+    });
+
+    panel.requestFocusInWindow(); // 确保面板获得焦点
+    panel.setFocusable(true);
+  }
+
+  public void bindFileInfoCheckEvent() {// TODO 右键查看文件信息
+    JPanel panel = frameData.basePanel;
+
+    panel.addMouseListener(new MouseAdapter() { // 当前组件的鼠标点击事件
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        // MouseEvent.BUTTON1: 左键点击,MouseEvent.BUTTON2: 中间点击(滑轮)
+        if (e.getButton() == MouseEvent.BUTTON3) {// 设置右键点击事件
+          System.out.println(this + " 右键查看文件信息");
+        }
+      }
+    });
+
+    panel.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_CONTEXT_MENU) {
+          System.out.println(this + " 上下文菜单键查看文件信息");
         }
       }
     });

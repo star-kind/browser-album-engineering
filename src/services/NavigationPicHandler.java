@@ -5,7 +5,7 @@ import entities.FrameValueObject;
 
 public class NavigationPicHandler {
   public FrameValueObject showByImageFlag(int navFlag, String[] imageFilesArr, int currentIndex,
-      PhotoManifestHandler photo,
+      OpenPhotoHandler photo,
       FrameValueObject obj) {
     int index = calculateIndex(navFlag, imageFilesArr, currentIndex);
 

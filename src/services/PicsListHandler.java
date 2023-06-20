@@ -63,7 +63,7 @@ public class PicsListHandler {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
           int selectedIndex = imageList.getSelectedIndex();
           if (selectedIndex >= 0) {
-            PhotoManifestHandler photo = new PhotoManifestHandler();
+            OpenPhotoHandler photo = new OpenPhotoHandler();
             photo.openPhoto(obj, imagesUrlArray[selectedIndex]);
           }
         }
@@ -80,7 +80,7 @@ public class PicsListHandler {
         if (e.getClickCount() == 2) {
           int selectedIndex = imageList.getSelectedIndex();
           if (selectedIndex >= 0) {
-            PhotoManifestHandler photo = new PhotoManifestHandler();
+            OpenPhotoHandler photo = new OpenPhotoHandler();
             photo.openPhoto(obj, imagesUrlArray[selectedIndex]);
           }
         }

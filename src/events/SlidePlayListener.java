@@ -4,14 +4,14 @@ import java.io.File;
 
 import entities.FrameValueObject;
 import entities.ImageValueObject;
-import services.PhotoManifestHandler;
+import services.OpenPhotoHandler;
 import services.SlidePlayHandler;
 import utils.DealFilePathStr;
 
 public class SlidePlayListener {
   public void autoPlaying(FrameValueObject obj, boolean switchSlide) {
     SlidePlayHandler handler = new SlidePlayHandler();
-    PhotoManifestHandler photo = new PhotoManifestHandler();
+    OpenPhotoHandler photo = new OpenPhotoHandler();
     DealFilePathStr deal = new DealFilePathStr();
     ImageValueObject imgObj = obj.getImageValObj();
 

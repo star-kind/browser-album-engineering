@@ -2,15 +2,16 @@ package services;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import constants.Constants;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import entities.ImageValueObject;
-import json.JsonFileHandler;
 import utils.DealFilePathStr;
-import constants.*;
+import utils.JackSonUtil;
 
 public class FileChooserHandler {
   public ImageValueObject openFileChooser() {
@@ -22,7 +23,10 @@ public class FileChooserHandler {
 
     if (result == JFileChooser.APPROVE_OPTION) {
       ImageValueObject imgValObj = getImgValObj(fileChooser);
-      insertValObj(imgValObj);
+
+      JackSonUtil util = new JackSonUtil();
+      util.insertObj2JsonFile(imgValObj, Constants.json_folder_path, Constants.img_json_file);
+
       return imgValObj;
     }
     return null;
@@ -50,15 +54,6 @@ public class FileChooserHandler {
     imgValObj.setCurrentPathsArray(imagePathArr);
 
     return imgValObj;
-  }
-
-  public void insertValObj(ImageValueObject imgValObj) {
-    JsonFileHandler handler = new JsonFileHandler();
-    try {
-      handler.writeJsonToFile(imgValObj, Constants.json_folder_path, Constants.img_json_file);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
 }

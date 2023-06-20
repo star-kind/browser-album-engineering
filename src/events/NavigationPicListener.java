@@ -3,12 +3,12 @@ package events;
 import entities.FrameValueObject;
 import entities.ImageValueObject;
 import services.NavigationPicHandler;
-import services.PhotoManifestHandler;
+import services.OpenPhotoHandler;
 
 public class NavigationPicListener {
   public void navigation(FrameValueObject obj, int navFlag) {
     NavigationPicHandler handler = new NavigationPicHandler();
-    PhotoManifestHandler photo = new PhotoManifestHandler();
+    OpenPhotoHandler photo = new OpenPhotoHandler();
     ImageValueObject imageValueObj = obj.getImageValObj();
 
     if (imageValueObj != null) {

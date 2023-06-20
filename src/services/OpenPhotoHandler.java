@@ -2,27 +2,35 @@ package services;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import constants.Constants;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 
 import entities.*;
+import utils.JackSonUtil;
 import utils.ProcessTitle;
 
-public class PhotoManifestHandler {
+public class OpenPhotoHandler {
   public FrameValueObject openPhoto(FrameValueObject obj, String imagePath) {
     ProcessTitle p = new ProcessTitle();
-    unfoldPhoto(obj.getBasePanel(), obj.getImageLabel(), imagePath, obj.getFrame());
+    unfoldPhoto(obj.getBasePanel(), obj.getImageLabel(), imagePath);
 
     String title = p.getSingleTitle(imagePath);
     obj.getFrame().setTitle(title);
+
+    JackSonUtil util = new JackSonUtil();
+    util.insertObj2JsonFile(obj.getImageValObj(), Constants.json_folder_path, Constants.img_json_file);
+
     return obj;
   }
 
-  public void unfoldPhoto(JPanel panel, JLabel imageLabel, String imagePath, JFrame frame1) {
+  public void unfoldPhoto(JPanel panel, JLabel imageLabel, String imagePath) {
     clearPanel(panel);
-    JLabel label = showImage(imageLabel, imagePath, frame1);
+    JLabel label = showImage(imageLabel, imagePath);
     panel.add(label, BorderLayout.CENTER);
   }
 
@@ -35,7 +43,7 @@ public class PhotoManifestHandler {
     panel.repaint();
   }
 
-  public JLabel showImage(JLabel imageLabel, String imagePath, JFrame frame1) {
+  public JLabel showImage(JLabel imageLabel, String imagePath) {
     File imageFile = new File(imagePath);// 获取当前索引位置的图片文件
     System.out.println(this.getClass() + " showImage:" + imageFile.getName());
 
@@ -43,8 +51,8 @@ public class PhotoManifestHandler {
     SwingWorker<BufferedImage, Void> worker = new SwingWorker<BufferedImage, Void>() {
       @Override
       protected BufferedImage doInBackground() throws Exception {
-        String fileType = Files.probeContentType(imageFile.toPath());
 
+        String fileType = Files.probeContentType(imageFile.toPath());
         if (fileType != null && fileType.equals("image/gif")) {// 检测文件类型
           LoadGifHandler load = new LoadGifHandler();
           load.loadGif(imageLabel, imagePath); // 处理 GIF 图片
@@ -73,6 +81,13 @@ public class PhotoManifestHandler {
     return imageLabel;
   }
 
+  /**
+   * 打开新图片之时,计算并设置初始化的图片尺寸
+   * 
+   * @param imageLabel
+   * @param image
+   * @return
+   */
   public Image scaleImage(JLabel imageLabel, BufferedImage image) {
     // 获取图片的原始宽度和高度
     int originalWidth = image.getWidth();

@@ -4,11 +4,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Constants {
+  public static String recycle_path = "recycle";
+
   public static String json_folder_path = "../temporary";
 
-  public static String img_json_file = "PICTURE.JSON";
+  public static String img_json_file = "Picture.json";
 
-  public static String scale_json_file = "SCALE-FACTOR.JSON";
+  public static String scale_json_file = "ScaleFactor.json";
 
   /**
    * 放大

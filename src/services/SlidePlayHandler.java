@@ -5,7 +5,7 @@ import java.io.File;
 import entities.FrameValueObject;
 
 public class SlidePlayHandler {
-  public void startSlideShow(FrameValueObject obj, File[] imageFilesArr, PhotoManifestHandler photo) {
+  public void startSlideShow(FrameValueObject obj, File[] imageFilesArr, OpenPhotoHandler photo) {
     boolean switchSlide = obj.getSlideLantern().getSwitchSlide();
     judgeSwitchSlide(switchSlide);
 
@@ -39,7 +39,7 @@ public class SlidePlayHandler {
     }
   }
 
-  public void showNextImage(FrameValueObject obj, File[] imageFilesArr, PhotoManifestHandler photo) {
+  public void showNextImage(FrameValueObject obj, File[] imageFilesArr, OpenPhotoHandler photo) {
     int currentIndex = obj.getImageValObj().getCurrentOrder();
     System.out.println(this + " showNextImage-currentIndex=" + currentIndex);
 

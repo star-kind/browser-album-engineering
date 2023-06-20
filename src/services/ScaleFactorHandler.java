@@ -24,28 +24,28 @@ public class ScaleFactorHandler {
     }
   }
 
-  public Double firstTimeScaling(Double decision, JsonFileHandler handler) {
+  public Double firstTimeScaling(Double decision, JsonFileHandler jsHandler) {
     ScaleFactorObj obj = new ScaleFactorObj();
     obj.setInScaleFactor(Constants.zoom_in_decision);
     obj.setOutScaleFactor(Constants.zoom_out_decision);
     try {
-      handler.writeJsonToFile(obj, Constants.json_folder_path, Constants.scale_json_file);
+      jsHandler.writeJsonToFile(obj, Constants.json_folder_path, Constants.scale_json_file);
     } catch (IOException e) {
       e.printStackTrace();
     }
     return decision;
   }
 
-  public Double updateScalingFactor(Double decision, JsonFileHandler handler, String filePath) throws IOException {
+  public Double updateScalingFactor(Double decision, JsonFileHandler jsHandler, String filePath) throws IOException {
     ScaleFactorObj scaleFactorObj;
     Double calculate = 1.0;
 
     try {
-      scaleFactorObj = (ScaleFactorObj) handler.getConvertObject(filePath, ScaleFactorObj.class);
+      scaleFactorObj = (ScaleFactorObj) jsHandler.getConvertObject(filePath, ScaleFactorObj.class);
     } catch (Exception e) {
       File file = new File(filePath);
       file.delete();
-      return firstTimeScaling(decision, handler);
+      return firstTimeScaling(decision, jsHandler);
     }
 
     if (decision.equals(Constants.zoom_in_decision)) {
@@ -58,7 +58,7 @@ public class ScaleFactorHandler {
 
     }
 
-    handler.writeJsonToFile(scaleFactorObj, Constants.json_folder_path, Constants.scale_json_file);
+    jsHandler.writeJsonToFile(scaleFactorObj, Constants.json_folder_path, Constants.scale_json_file);
     return calculate;
   }
 
