@@ -16,11 +16,8 @@ import utils.ProcessTitle;
 
 public class OpenPhotoHandler {
   public FrameValueObject openPhoto(FrameValueObject obj, String imagePath) {
-    ProcessTitle p = new ProcessTitle();
     unfoldPhoto(obj.getBasePanel(), obj.getImageLabel(), imagePath);
-
-    String title = p.getSingleTitle(imagePath);
-    obj.getFrame().setTitle(title);
+    updateInterfaceTitle(obj, imagePath);
 
     JackSonUtil util = new JackSonUtil();
     util.insertObj2JsonFile(obj.getImageValObj(), Constants.json_folder_path, Constants.img_json_file);
@@ -28,9 +25,17 @@ public class OpenPhotoHandler {
     return obj;
   }
 
+  public void updateInterfaceTitle(FrameValueObject obj, String imagePath) {
+    ProcessTitle p = new ProcessTitle();
+    String title = p.getSingleTitle(imagePath);
+    obj.getFrame().setTitle(title);
+  }
+
   public void unfoldPhoto(JPanel panel, JLabel imageLabel, String imagePath) {
     clearPanel(panel);
-    JLabel label = showImage(imageLabel, imagePath);
+    System.out.println(this + " Show Image Path:" + imagePath);
+
+    JLabel label = showImage(imageLabel, imagePath);// core
     panel.add(label, BorderLayout.CENTER);
   }
 
@@ -45,25 +50,28 @@ public class OpenPhotoHandler {
 
   public JLabel showImage(JLabel imageLabel, String imagePath) {
     File imageFile = new File(imagePath);// 获取当前索引位置的图片文件
-    System.out.println(this.getClass() + " showImage:" + imageFile.getName());
+    System.out.println(this + " Show AbsolutePath:" + imageFile.getAbsolutePath());
 
     // 通过SwingWorker将图片加载和显示的逻辑放在单独的线程中来改善性能
     SwingWorker<BufferedImage, Void> worker = new SwingWorker<BufferedImage, Void>() {
       @Override
-      protected BufferedImage doInBackground() throws Exception {
+      protected BufferedImage doInBackground() throws Exception {// 先执行
 
         String fileType = Files.probeContentType(imageFile.toPath());
+
         if (fileType != null && fileType.equals("image/gif")) {// 检测文件类型
           LoadGifHandler load = new LoadGifHandler();
           load.loadGif(imageLabel, imagePath); // 处理 GIF 图片
+
         } else {
+
           return ImageIO.read(imageFile); // 返回读取到的图片
         }
         return null;
       }
 
       @Override
-      protected void done() {
+      protected void done() {// 再执行
         try {
           BufferedImage image = get();
           if (image != null) {
@@ -71,6 +79,7 @@ public class OpenPhotoHandler {
             Image scaledImage = scaleImage(imageLabel, image);
             // 将缩放后的图片设置为 imageLabel 的图标
             imageLabel.setIcon(new ImageIcon(scaledImage));
+
           }
         } catch (Exception ex) {
           System.out.println(this.getClass() + " Error loading image:" + ex.getMessage());

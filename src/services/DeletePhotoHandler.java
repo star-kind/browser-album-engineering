@@ -82,7 +82,6 @@ public class DeletePhotoHandler {
     if (currentIndex >= 0) {
       ImageValueObject obj = createImageValueObject(remainingFiles, currentIndex);
       return obj;
-      // setImageValueObject(obj);
     } else {
       imageLabel.setIcon(null);
       return null;
@@ -90,15 +89,11 @@ public class DeletePhotoHandler {
   }
 
   public ImageValueObject createImageValueObject(List<File> remainingFiles, int currentIndex) {
-    // ImageValueObject obj = new ImageValueObject();
     DealFilePathStr deal = new DealFilePathStr();
 
     File[] fileArr = remainingFiles.toArray(new File[remainingFiles.size()]);
     String[] arr = deal.filesArr2StrArr(fileArr);
 
-    // obj.setCurrentPathsArray(arr);
-    // obj.setCurrentOrder(currentIndex);
-    // obj.setCurrentPath(arr[currentIndex]);
     ImageValueObject obj = setImageValueObject(arr, currentIndex);
     return obj;
   }

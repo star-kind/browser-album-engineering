@@ -1,13 +1,13 @@
 # Image Viewer Program
 
-This is an image viewer program based on Java Swing, allowing users to browse and view images.
+This is a Java Swing-based image viewer program that supports users to browse images.
 
 ## Features
 
 - Java version: "16.0.1" (Make sure you have installed and configured the corresponding JDK environment).
 - Supports slideshow mode.
 - Automatically opens all images in the specified directory (including subfolders).
-- Does not support GIF animation display.
+- Support GIF dynamic display.
 - Supports image scaling.
 - Shortcut keys to switch to the previous and next image: Left and Right arrows, Up and Down arrows, Page Up and Page Down.
 
@@ -18,13 +18,13 @@ To package the program as a JAR file, follow these steps:
 1. Compile the program into `.class` files using the following command:
 
 ```
-javac ImageGalleryPanel.java
+javac MainApp.java
 ```
 
 2. Create a text file named `Manifest.txt` and specify the program's entry class in it. As follows:
 
 ```
-Main-Class: ImageGalleryPanel
+Main-Class: MainApp
 ```
 
 3. Package the program as a JAR file using the following command:
@@ -63,13 +63,13 @@ java -jar ../app.jar
 1. 使用以下命令将程序编译为 `.class` 文件：
 
 ```
-javac ImageGalleryPanel.java
+javac MainApp.java
 ```
 
 2. 创建一个名为 `Manifest.txt` 的文本文件，并在其中指定程序的入口类，如下：
 
 ```
-Main-Class: ImageGalleryPanel
+Main-Class: MainApp
 ```
 
 3. 使用以下命令将程序打包为 JAR 文件：

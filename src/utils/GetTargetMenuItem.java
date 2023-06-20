@@ -1,6 +1,8 @@
 package utils;
 
 import java.awt.Component;
+import java.util.Map;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -24,7 +26,8 @@ public class GetTargetMenuItem {
    * Designate 指定
    */
   public JMenuItem getDesignateMenuItem(String menuTitle, String itemName, FrameValueObject frameData) {
-    JMenu fileMenu = frameData.menuBar.getFileMenus().get(menuTitle);
+    Map<String, JMenu> fileMenuMap = frameData.getMenuBarValueObject().getMenusMap();
+    JMenu fileMenu = fileMenuMap.get(menuTitle);
     JMenuItem item = getMenuItemByName(fileMenu, itemName);
     return item;
   }

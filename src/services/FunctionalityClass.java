@@ -2,7 +2,6 @@ package services;
 
 import java.awt.*;
 
-import components.MenuBarComponent;
 import constants.Constants;
 import entities.*;
 
@@ -11,19 +10,14 @@ public class FunctionalityClass {
 
   public FunctionalityClass(FrameValueObject frameValObj) {
     this.frameVO = frameValObj;
-    createMenuBar(this.frameVO.menuBar);
     addMenuBarToFrame();
     setBasePanelSize();
     displayFrame();
     initializationSlideLantern();
   }
 
-  public void createMenuBar(MenuBarComponent menuBar) {
-    this.frameVO.menuBar = menuBar;
-  }
-
   public void addMenuBarToFrame() {
-    this.frameVO.frame.setJMenuBar(this.frameVO.menuBar);
+    this.frameVO.frame.setJMenuBar(this.frameVO.menuBarValueObject.menuBar);
   }
 
   public void setBasePanelSize() {
@@ -31,7 +25,7 @@ public class FunctionalityClass {
     GraphicsDevice screenDevice = env.getDefaultScreenDevice();
     Rectangle screenBounds = screenDevice.getDefaultConfiguration().getBounds();
 
-    int basePanelHeight = screenBounds.height - this.frameVO.menuBar.getHeight();
+    int basePanelHeight = screenBounds.height - this.frameVO.menuBarValueObject.menuBar.getHeight();
     this.frameVO.basePanel.setPreferredSize(new Dimension(screenBounds.width, basePanelHeight));
   }
 

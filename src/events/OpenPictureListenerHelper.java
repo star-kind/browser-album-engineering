@@ -7,7 +7,8 @@ public class OpenPictureListenerHelper {
   public FrameValueObject openPicture(FrameValueObject obj) {
     FileChooserHandler fileHandler = new FileChooserHandler();
     OpenPhotoHandler photohHandler = new OpenPhotoHandler();
-    ImageValueObject imgObj = fileHandler.openFileChooser();
+
+    ImageValueObject imgObj = fileHandler.getImgsDataModel();
 
     if (imgObj != null) {
       String imagePath = imgObj.getCurrentPath();

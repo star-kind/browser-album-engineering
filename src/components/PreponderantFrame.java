@@ -19,13 +19,11 @@ import constants.*;
 public class PreponderantFrame {
   public FrameValueObject frameData;
 
-  public void kernel(MenuBarComponent menuBar) {
+  public void kernel() {
     this.frameData = new FrameValueObject();
 
-    initialize(menuBar);
-
-    FunctionalityClass functionality = new FunctionalityClass(this.frameData);
-    this.frameData = functionality.getFrameVO();
+    initializeUI();
+    produceFrameValueObject();
 
     openAndDisplayImage();
 
@@ -47,18 +45,24 @@ public class PreponderantFrame {
 
     bindJumpFirstOrLastEvent();
 
-    bindCloseAllDialogEvent();
-
     bindInputPathEvent();
 
-    bindFileInfoCheckEvent();
+    bindRightClickEvent();
+    bindFilePropertyEvent();
   }
 
-  public void initialize(MenuBarComponent menuBar) {
+  public void initializeUI() {
     createFrame();
     createLabel();
     createBasePanel();
-    this.frameData.setMenuBar(menuBar);
+  }
+
+  public void produceFrameValueObject() {
+    MenuBarComponent menuBar = new MenuBarComponent();
+    this.frameData.menuBarValueObject = menuBar.generateMenuBar();
+
+    FunctionalityClass functionality = new FunctionalityClass(this.frameData);
+    this.frameData = functionality.getFrameVO();
   }
 
   public void createFrame() {
@@ -85,7 +89,7 @@ public class PreponderantFrame {
     OpenPictureListenerHelper open = new OpenPictureListenerHelper();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem openPicItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem openPicItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
         MenuBarConstants.MENU_ITEM_OPEN_PICTURE, frameData);
 
     ActionListener openPictureListener = new ActionListener() {
@@ -113,7 +117,7 @@ public class PreponderantFrame {
     ZoomImgListener listener = new ZoomImgListener();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem zoomInMenuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem zoomInMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_0,
         MenuBarConstants.MENU_ITEM_ZOOM_IN, frameData);
 
     zoomInMenuItem.addActionListener(new ActionListener() {
@@ -142,7 +146,7 @@ public class PreponderantFrame {
     ZoomImgListener listener = new ZoomImgListener();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem outMenuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem outMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_0,
         MenuBarConstants.MENU_ITEM_ZOOM_OUT, frameData);
 
     outMenuItem.addActionListener(new ActionListener() {
@@ -171,7 +175,7 @@ public class PreponderantFrame {
     ZoomImgListener listener = new ZoomImgListener();
 
     GetTargetMenuItem t = new GetTargetMenuItem();
-    JMenuItem menuItem = t.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem menuItem = t.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_0,
         MenuBarConstants.MENU_ITEM_ZOOM_RECONVERION, frameData);
 
     menuItem.addActionListener(new ActionListener() {
@@ -202,7 +206,7 @@ public class PreponderantFrame {
   public void bindPrevNavEvent() {
     JPanel panel = frameData.basePanel;
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem prevMenuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem prevMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_PREVIOUS, frameData);
     NavigationPicListener nav = new NavigationPicListener();
 
@@ -229,7 +233,7 @@ public class PreponderantFrame {
   public void bindNextNavEvent() {
     JPanel panel = frameData.basePanel;
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem nextMenuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem nextMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_NEXT, frameData);
     NavigationPicListener nav = new NavigationPicListener();
 
@@ -261,7 +265,7 @@ public class PreponderantFrame {
     PicsCollectListener p = new PicsCollectListener();
     GetTargetMenuItem target = new GetTargetMenuItem();
 
-    JMenuItem listItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem listItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
         MenuBarConstants.MENU_ITEM_EXAMINE_LIST, frameData);
 
     ActionListener listPictureListener = new ActionListener() {
@@ -288,7 +292,7 @@ public class PreponderantFrame {
     KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0);
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem startItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem startItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_SLIDE_START, frameData);
 
     SlidePlayListener slide = new SlidePlayListener();
@@ -317,7 +321,7 @@ public class PreponderantFrame {
     KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0);
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem stopItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem stopItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_SLIDE_STOP, frameData);
     SlidePlayListener slide = new SlidePlayListener();
 
@@ -342,7 +346,7 @@ public class PreponderantFrame {
 
   public void bindDeleteEvent() {
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem deleteMenuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem deleteMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
         MenuBarConstants.MENU_ITEM_DELETE, frameData);
 
     // 设置快捷键 Delete
@@ -370,15 +374,15 @@ public class PreponderantFrame {
   }
 
   public void bindSelectEvent() {
+    SelectDirectoryListener select = new SelectDirectoryListener();
+
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
         MenuBarConstants.MENU_ITEM_SELECT_DIRECTORY, frameData);
 
     // 设置快捷键
     KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK);
     String key = "SelectOneDirectory";
-
-    SelectDirectoryListener select = new SelectDirectoryListener();
 
     ActionListener selectListener = new ActionListener() {
       @Override
@@ -400,15 +404,15 @@ public class PreponderantFrame {
   }
 
   public void bindInputPathEvent() {
+    InputPathListener listener = new InputPathListener();
+
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.FILE_MENU_TITLE,
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
         MenuBarConstants.MENU_ITEM_INPUT_PATH, frameData);
 
     // 设置快捷键
     KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK);
     String key = "INPUT_PATH";
-
-    InputPathListener listener = new InputPathListener();
 
     ActionListener action = new ActionListener() {
       @Override
@@ -449,47 +453,60 @@ public class PreponderantFrame {
     panel.setFocusable(true);
   }
 
-  public void bindCloseAllDialogEvent() {// TODO bindCloseAllDialogEvent
-    JPanel panel = frameData.basePanel;
+  public void bindRightClickEvent() {// TODO 右键事件: 打开菜单
+    JFrame frame = frameData.frame;
 
-    panel.addKeyListener(new KeyAdapter() {
-      @Override
-      public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_ESCAPE) {
-          System.out.println(this + " bind Close All Dialog Event");
-        }
-      }
-    });
+    PopUpMenuComponent comp = new PopUpMenuComponent();
+    JPopupMenu popupMenu = comp.createPopupMenu().getPopUpMenu();
 
-    panel.requestFocusInWindow(); // 确保面板获得焦点
-    panel.setFocusable(true);
-  }
-
-  public void bindFileInfoCheckEvent() {// TODO 右键查看文件信息
-    JPanel panel = frameData.basePanel;
-
-    panel.addMouseListener(new MouseAdapter() { // 当前组件的鼠标点击事件
+    frame.addMouseListener(new MouseAdapter() { // 当前组件的鼠标点击事件
       @Override
       public void mouseClicked(MouseEvent e) {
         // MouseEvent.BUTTON1: 左键点击,MouseEvent.BUTTON2: 中间点击(滑轮)
         if (e.getButton() == MouseEvent.BUTTON3) {// 设置右键点击事件
-          System.out.println(this + " 右键查看文件信息");
+          popupMenu.show(e.getComponent(), e.getX(), e.getY());
         }
       }
     });
 
-    panel.addKeyListener(new KeyAdapter() {
+    frame.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_CONTEXT_MENU) {
-          System.out.println(this + " 上下文菜单键查看文件信息");
+          comp.showAtCentral(frame, popupMenu);
         }
       }
     });
 
-    panel.requestFocusInWindow(); // 确保面板获得焦点
-    panel.setFocusable(true);
+    frame.requestFocusInWindow(); // 确保面板获得焦点
+    frame.setFocusable(true);
+  }
+
+  public void bindFilePropertyEvent() {// TODO 文件属性信息
+    GetTargetMenuItem target = new GetTargetMenuItem();
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
+        MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, frameData);
+
+    String key = "FilePropertyAction";
+    KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
+
+    ActionListener action = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println(this + " 文件属性信息 Click");
+      }
+    };
+
+    menuItem.addActionListener(action);
+    menuItem.setAccelerator(keyStroke);
+    menuItem.getActionMap().put(key, new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.out.println(this + " 文件属性信息 KeyEvent");
+      }
+    });
+
+    menuItem.getInputMap().put(keyStroke, key);
   }
 }
