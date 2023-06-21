@@ -3,18 +3,15 @@ package services;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import constants.Constants;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import entities.ImageValueObject;
 import utils.DealFilePathStr;
-import utils.JackSonUtil;
 
 public class FileChooserHandler {
-  public ImageValueObject getImgsDataModel() {// TODO CORE
+  public ImageValueObject getImgsDataModel() {
     JFileChooser fileChooser = new JFileChooser();
     FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif");
 
@@ -23,10 +20,8 @@ public class FileChooserHandler {
 
     if (result == JFileChooser.APPROVE_OPTION) {
       ImageValueObject imgValObj = getImgVO(fileChooser);
-
-      JackSonUtil util = new JackSonUtil();
-      util.insertObj2JsonFile(imgValObj, Constants.json_folder_path, Constants.img_json_file);
-
+      // ImageUtil util = new ImageUtil();//TODO 鸡肋
+      // util.injectValObj2JsonFile(imgValObj);
       return imgValObj;
     }
     return null;

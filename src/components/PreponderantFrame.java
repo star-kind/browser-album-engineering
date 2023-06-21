@@ -454,12 +454,12 @@ public class PreponderantFrame {
   }
 
   public void bindRightClickEvent() {// TODO 右键事件: 打开菜单
-    JFrame frame = frameData.frame;
+    JPanel panel = frameData.basePanel;
 
     PopUpMenuComponent comp = new PopUpMenuComponent();
     JPopupMenu popupMenu = comp.createPopupMenu().getPopUpMenu();
 
-    frame.addMouseListener(new MouseAdapter() { // 当前组件的鼠标点击事件
+    panel.addMouseListener(new MouseAdapter() { // 当前组件的鼠标点击事件
       @Override
       public void mouseClicked(MouseEvent e) {
         // MouseEvent.BUTTON1: 左键点击,MouseEvent.BUTTON2: 中间点击(滑轮)
@@ -469,18 +469,18 @@ public class PreponderantFrame {
       }
     });
 
-    frame.addKeyListener(new KeyAdapter() {
+    panel.addKeyListener(new KeyAdapter() {
       @Override
       public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_CONTEXT_MENU) {
-          comp.showAtCentral(frame, popupMenu);
+          comp.showAtCentral(panel, popupMenu);
         }
       }
     });
 
-    frame.requestFocusInWindow(); // 确保面板获得焦点
-    frame.setFocusable(true);
+    panel.requestFocusInWindow(); // 确保面板获得焦点
+    panel.setFocusable(true);
   }
 
   public void bindFilePropertyEvent() {// TODO 文件属性信息

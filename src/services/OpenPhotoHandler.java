@@ -3,15 +3,12 @@ package services;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import constants.Constants;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 
 import entities.*;
-import utils.JackSonUtil;
 import utils.ProcessTitle;
 
 public class OpenPhotoHandler {
@@ -19,9 +16,8 @@ public class OpenPhotoHandler {
     unfoldPhoto(obj.getBasePanel(), obj.getImageLabel(), imagePath);
     updateInterfaceTitle(obj, imagePath);
 
-    JackSonUtil util = new JackSonUtil();
-    util.insertObj2JsonFile(obj.getImageValObj(), Constants.json_folder_path, Constants.img_json_file);
-
+    System.out.println(this + " Show ImagePath:" + imagePath);
+    System.out.println(this + " Show Index:" + obj.getImageValObj().getCurrentOrder());
     return obj;
   }
 
@@ -33,9 +29,8 @@ public class OpenPhotoHandler {
 
   public void unfoldPhoto(JPanel panel, JLabel imageLabel, String imagePath) {
     clearPanel(panel);
-    System.out.println(this + " Show Image Path:" + imagePath);
+    JLabel label = showImage(imageLabel, imagePath);
 
-    JLabel label = showImage(imageLabel, imagePath);// core
     panel.add(label, BorderLayout.CENTER);
   }
 
@@ -50,7 +45,6 @@ public class OpenPhotoHandler {
 
   public JLabel showImage(JLabel imageLabel, String imagePath) {
     File imageFile = new File(imagePath);// 获取当前索引位置的图片文件
-    System.out.println(this + " Show AbsolutePath:" + imageFile.getAbsolutePath());
 
     // 通过SwingWorker将图片加载和显示的逻辑放在单独的线程中来改善性能
     SwingWorker<BufferedImage, Void> worker = new SwingWorker<BufferedImage, Void>() {

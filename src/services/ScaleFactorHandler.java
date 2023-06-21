@@ -11,9 +11,7 @@ import constants.*;
 public class ScaleFactorHandler {
   public Double processDecision(Double decision) throws IOException {
     JsonFileHandler handler = new JsonFileHandler();
-
     Path filePath = Constants.getConflatePath(Constants.json_folder_path, Constants.scale_json_file);
-    System.out.println(this.getClass() + " processDecision filePath:" + filePath.toString());
 
     if (!Files.exists(filePath)) {
       // 第一次对图片进行缩放
@@ -29,7 +27,8 @@ public class ScaleFactorHandler {
     obj.setInScaleFactor(Constants.zoom_in_decision);
     obj.setOutScaleFactor(Constants.zoom_out_decision);
     try {
-      jsHandler.writeJsonToFile(obj, Constants.json_folder_path, Constants.scale_json_file);
+      jsHandler.writeJsonToFile(obj, Constants.json_folder_path,
+          Constants.scale_json_file);
     } catch (IOException e) {
       e.printStackTrace();
     }

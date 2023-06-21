@@ -7,11 +7,7 @@ import java.util.Map;
 import constants.*;
 import entities.MenuBarValueObject;
 
-public class MenuBarComponent { // extends JMenuBar
-  // private Map<String, JMenu> fileMenusMap;
-  // public MenuBarComponent() {
-  // }
-
+public class MenuBarComponent {
   public MenuBarValueObject generateMenuBar() {
     JMenuBar menuBar = new JMenuBar();
     Map<String, JMenu> fileMenusMap = new HashMap<>();

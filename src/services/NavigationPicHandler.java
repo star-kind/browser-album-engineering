@@ -11,12 +11,12 @@ public class NavigationPicHandler {
 
     if (imageFilesArr != null && imageFilesArr.length > 0) {
       String path = imageFilesArr[index];
+      // System.out.println(this + " showByImageFlag index=" + index);
+      // System.out.println(this + " showByImageFlag path=" + path);
       obj.getImageValObj().setCurrentOrder(index);
+      obj.getImageValObj().setCurrentPath(path);
 
       FrameValueObject frameJO = photo.openPhoto(obj, path);
-      System.out.println(this + " showByImageFlag index=" + index);
-      System.out.println(this + " showByImageFlag path=" + path);
-
       return frameJO;
     }
     return null;

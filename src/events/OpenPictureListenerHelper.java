@@ -13,10 +13,10 @@ public class OpenPictureListenerHelper {
     if (imgObj != null) {
       String imagePath = imgObj.getCurrentPath();
       if (imagePath != null) {
+        obj.setImageValObj(imgObj);
         photohHandler.openPhoto(obj, imagePath);
       }
 
-      obj.setImageValObj(imgObj);
       return obj;
     } else {
       System.out.println(this.getClass() + " openPicture 未打开图片");

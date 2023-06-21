@@ -41,10 +41,12 @@ public class SlidePlayHandler {
 
   public void showNextImage(FrameValueObject obj, File[] imageFilesArr, OpenPhotoHandler photo) {
     int currentIndex = obj.getImageValObj().getCurrentOrder();
-    System.out.println(this + " showNextImage-currentIndex=" + currentIndex);
+    System.out.println(this + " showNextImage-currentIndex Init=" + currentIndex);
 
     if (imageFilesArr != null && imageFilesArr.length > 0) {
       currentIndex = (currentIndex + 1) % imageFilesArr.length;
+      System.out.println(this + " showNextImage-currentIndex Latest=" + currentIndex);
+
       String path = imageFilesArr[currentIndex].getAbsolutePath();
       photo.openPhoto(obj, path);// TODO showNextImage
     }

@@ -16,29 +16,29 @@ import utils.ImageUtil;
 
 public class ZoomImgListener {
   public void treatZoomImg(FrameValueObject frameData, Double decision) {
-    System.out.println(this.getClass() + " getZoomImgData decision: " + decision);
+    System.out.println(this + " getZoomImgData decision: " + decision);
     ZoomImgHandler handle = new ZoomImgHandler();
-
     ImageValueObject imgDO = frameData.getImageValObj();
 
     if (imgDO != null) {
-      String path = imgDO.getCurrentPath();// TODO CurrentPath BUG
-      System.out.println(this + " treatZoomImg path=" + path);
-
+      String path = imgDO.getCurrentPath();
       ImageUtil util = new ImageUtil();
       ImageIcon currentIcon = util.createImageIcon(path);// 获取当前图标
 
+      System.out.println(this + " Zoom will index=" + imgDO.getCurrentOrder());
+      System.out.println(this + " Zoom will PATH=" + path);
+
       JLabel imageLabel = frameData.getImageLabel();
       JPanel panel = frameData.getBasePanel();
-
       try {
         imageLabel = handle.zoomImage(imageLabel, decision, currentIcon);
+
       } catch (CustomException e) {
         e.printStackTrace();
       }
       panel.add(imageLabel, BorderLayout.CENTER);
-
       frameData.setImageLabel(imageLabel);
+
     } else {
       System.out.println(this.getClass() + " treatZoomImg 未曾打开任何图片");
     }
@@ -51,7 +51,7 @@ public class ZoomImgListener {
 
     if (imgVO != null) {
       int index = imgVO.getCurrentOrder();
-      String path = imgVO.getCurrentPath();// TODO CurrentPath BUG
+      String path = imgVO.getCurrentPath();
 
       System.out.println(this + " reconversionImageSize index=" + index);
       System.out.println(this + " reconversionImageSize path=" + path);
@@ -69,6 +69,6 @@ public class ZoomImgListener {
     } else {
       System.out.println(this.getClass() + " reconversionImageSize 未打开任何图片");
     }
-
   }
+
 }

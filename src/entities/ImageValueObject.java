@@ -30,8 +30,9 @@ public class ImageValueObject {
   }
 
   public void arrayShow() {
+    System.out.println(this.getClass());
     for (String string : currentPathsArray) {
-      System.out.print(string + ", ");
+      System.out.print(string + "\n");
     }
   }
 
