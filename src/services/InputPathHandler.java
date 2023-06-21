@@ -65,9 +65,7 @@ public class InputPathHandler {
   public void showErrorDialog(String errInfo, Component parenComponent, String title) {
     DialogComponent component = new DialogComponent();
     String btnString = "Close";
-    int width = 330;
-    int height = 120;
-    component.getCustomDialog(btnString, parenComponent, title, errInfo, width, height);
+    component.getCustomDialog(btnString, parenComponent, title, errInfo);
   }
 
   public void showOptPane(FrameValueObject frameJO, JButton openButton, JTextField directoryField) {

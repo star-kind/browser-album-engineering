@@ -33,7 +33,7 @@ public class SlidePlayHandler {
 
   // 判断是否决定播放幻灯片
   public void judgeSwitchSlide(boolean switchSlide) {
-    System.out.println(this.getClass() + " judgeSwitchSlide: " + switchSlide);
+    System.out.println(this + " judgeSwitchSlide: " + switchSlide);
     if (switchSlide == false) {
       return; // 直接中止
     }

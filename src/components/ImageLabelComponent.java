@@ -8,7 +8,6 @@ public class ImageLabelComponent {
     JLabel imageLabel = new JLabel();
     imageLabel.setHorizontalAlignment(JLabel.CENTER);
     imageLabel.setPreferredSize(new Dimension(800, 600)); // 设置固定尺寸
-
     return imageLabel;
   }
 }

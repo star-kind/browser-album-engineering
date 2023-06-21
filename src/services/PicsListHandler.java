@@ -1,18 +1,22 @@
 package services;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import entities.FrameValueObject;
 import entities.ImgListPane;
+import utils.DealFilePathStr;
 import components.DialogComponent;
+import components.ListLabelBuilderComponent;
 import constants.Constants;
 
 public class PicsListHandler {
   public void showImageList(String[] imagesUrlArray, FrameValueObject obj) {
-    File[] imageFilesArr = convertToFiles(imagesUrlArray);
-    ImgListPane listPane = createListPanel(imageFilesArr, obj);
+    DealFilePathStr deal = new DealFilePathStr();
+    File[] imageFilesArr = deal.strArr2FileArr(imagesUrlArray);
+
+    ListLabelBuilderComponent comp = new ListLabelBuilderComponent();
+    ImgListPane listPane = comp.createListPanel(imageFilesArr, obj);
     // 绑定键盘事件
     bindEnterKeyEvents(listPane.getImageList(), listPane.getListModel(), imagesUrlArray, obj);
     // 绑定鼠标双击事件
@@ -20,38 +24,9 @@ public class PicsListHandler {
     showingDialog(listPane.getListPanel(), obj);
   }
 
-  public ImgListPane createListPanel(File[] imageFilesArr, FrameValueObject obj) {
-    int index = 1;
-    JPanel listPanel = new JPanel(new BorderLayout());
-    DefaultListModel<String> listModel = new DefaultListModel<>();
-
-    for (File file : imageFilesArr) {
-      String imageName = file.getName();
-      String item = String.format("%d. %s", index, imageName);
-      listModel.addElement(item);
-      index++;
-    }
-
-    JList<String> imageList = new JList<>(listModel);
-    JScrollPane scrollPane = new JScrollPane(imageList);
-    listPanel.add(scrollPane);
-    imageList.setSelectedIndex(obj.getImageValObj().getCurrentOrder()); // 设置元素被选中
-
-    ImgListPane pane = getListPane(imageList, listModel, listPanel);
-    return pane;
-  }
-
-  public ImgListPane getListPane(JList<String> imageList, DefaultListModel<String> listModel, JPanel listPanel) {
-    ImgListPane pane = new ImgListPane();
-    pane.setImageList(imageList);
-    pane.setListModel(listModel);
-    pane.setListPanel(listPanel);
-    return pane;
-  }
-
   public void showingDialog(JPanel listPanel, FrameValueObject obj) {
     DialogComponent dialog = new DialogComponent();
-    dialog.getShowInfoDialog(listPanel, Constants.list_dialog_title, obj.getBasePanel());
+    dialog.getShowInfoDialog(listPanel, Constants.list_dialog_title, obj.getBasePanel(), 400, 400);
   }
 
   // 新方法：绑定键盘事件
@@ -86,15 +61,6 @@ public class PicsListHandler {
         }
       }
     });
-  }
-
-  public File[] convertToFiles(String[] pathStrArray) {
-    File[] fileArray = new File[pathStrArray.length];
-
-    for (int i = 0; i < pathStrArray.length; i++) {
-      fileArray[i] = new File(pathStrArray[i]);
-    }
-    return fileArray;
   }
 
 }

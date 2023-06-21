@@ -34,7 +34,7 @@ public class PreponderantFrame {
     bindPrevNavEvent();
     bindNextNavEvent();
 
-    bindStartPlayEvent();
+    bindStartPlayEvent();// TODO slide playing
     bindStopPlayEvent();
 
     bindShowImageListEvent();
@@ -453,11 +453,11 @@ public class PreponderantFrame {
     panel.setFocusable(true);
   }
 
-  public void bindRightClickEvent() {// TODO 右键事件: 打开菜单
+  public void bindRightClickEvent() {
     JPanel panel = frameData.basePanel;
 
     PopUpMenuComponent comp = new PopUpMenuComponent();
-    JPopupMenu popupMenu = comp.createPopupMenu().getPopUpMenu();
+    JPopupMenu popupMenu = comp.createPopupMenu(frameData).getPopUpMenu();
 
     panel.addMouseListener(new MouseAdapter() { // 当前组件的鼠标点击事件
       @Override
@@ -483,7 +483,8 @@ public class PreponderantFrame {
     panel.setFocusable(true);
   }
 
-  public void bindFilePropertyEvent() {// TODO 文件属性信息
+  public void bindFilePropertyEvent() {
+    TrawlImgDetailListener listener = new TrawlImgDetailListener();
     GetTargetMenuItem target = new GetTargetMenuItem();
     JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
         MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, frameData);
@@ -494,7 +495,7 @@ public class PreponderantFrame {
     ActionListener action = new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " 文件属性信息 Click");
+        listener.checkDetail(frameData);
       }
     };
 
@@ -503,10 +504,11 @@ public class PreponderantFrame {
     menuItem.getActionMap().put(key, new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " 文件属性信息 KeyEvent");
+        listener.checkDetail(frameData);
       }
     });
 
-    menuItem.getInputMap().put(keyStroke, key);
+    menuItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
+    // menuItem.requestFocus(); // 将焦点设置在菜单项上
   }
 }

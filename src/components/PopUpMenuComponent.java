@@ -11,37 +11,37 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import constants.MenuBarConstants;
+import entities.FrameValueObject;
 import entities.PopUpValueObject;
+import events.TrawlImgDetailListener;
 
 public class PopUpMenuComponent {
-  public PopUpValueObject createPopupMenu() {
+  public PopUpValueObject createPopupMenu(FrameValueObject frameVal) {
     JPopupMenu popupMenu = new JPopupMenu();
     Font fontConfig = new Font("Arial", Font.BOLD, 16);
     Dimension popupSize = new Dimension(200, 150);
 
-    JMenuItem menuItem1 = createMenuItem(MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, fontConfig);
-    menuItem1.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doSomething(111);
-      }
-    });
+    // JMenuItem menuItem1 =
+    // createMenuItem(MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, fontConfig);
+    // menuItem1.addActionListener(new ActionListener() {
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // TrawlImgDetailListener listener = new TrawlImgDetailListener();
+    // listener.checkDetail(frameVal);
+    // }
+    // });
 
-    JMenuItem menuItem2 = createMenuItem("Test 2", fontConfig);
-    menuItem2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doSomething(222);
-      }
-    });
+    // JMenuItem menuItem3 = createMenuItem("Test 3", fontConfig);
+    // menuItem3.addActionListener(new ActionListener() {
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // doSomething(333);
+    // }
+    // });
 
-    JMenuItem menuItem3 = createMenuItem("Test 3", fontConfig);
-    menuItem3.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        doSomething(333);
-      }
-    });
+    JMenuItem menuItem1 = trawlDetailItem(fontConfig, frameVal);
+    JMenuItem menuItem2 = test2(fontConfig);
+    JMenuItem menuItem3 = test3(fontConfig);
 
     popupMenu.add(menuItem1);
     popupMenu.add(menuItem2);
@@ -54,7 +54,41 @@ public class PopUpMenuComponent {
     return popUpObj;
   }
 
-  private JMenuItem createMenuItem(String text, Font font) {
+  public JMenuItem trawlDetailItem(Font fontConfig, FrameValueObject frameVal) {
+    JMenuItem menuItem1 = createMenuItem(MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, fontConfig);
+    menuItem1.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        TrawlImgDetailListener listener = new TrawlImgDetailListener();
+        listener.checkDetail(frameVal);
+      }
+    });
+    return menuItem1;
+  }
+
+  public JMenuItem test2(Font fontConfig) {
+    JMenuItem menuItem2 = createMenuItem("Test 2", fontConfig);
+    menuItem2.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        doSomething(222);
+      }
+    });
+    return menuItem2;
+  }
+
+  public JMenuItem test3(Font fontConfig) {
+    JMenuItem menuItem = createMenuItem("Test 3", fontConfig);
+    menuItem.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        doSomething(333);
+      }
+    });
+    return menuItem;
+  }
+
+  public JMenuItem createMenuItem(String text, Font font) {
     JMenuItem menuItem = new JMenuItem(text);
     menuItem.setFont(font);
     return menuItem;

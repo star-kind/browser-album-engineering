@@ -20,8 +20,6 @@ public class FileChooserHandler {
 
     if (result == JFileChooser.APPROVE_OPTION) {
       ImageValueObject imgValObj = getImgVO(fileChooser);
-      // ImageUtil util = new ImageUtil();//TODO 鸡肋
-      // util.injectValObj2JsonFile(imgValObj);
       return imgValObj;
     }
     return null;
