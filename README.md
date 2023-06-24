@@ -10,35 +10,42 @@ This is a Java Swing-based image viewer program that supports users to browse im
 - Support GIF dynamic display.
 - Supports image scaling.
 - Shortcut keys to switch to the previous and next image: Left and Right arrows, Up and Down arrows, Page Up and Page Down.
+- Support viewing picture list.
 
-## How to Package as JAR File
+## Steps to package and run a Java Swing project
 
-To package the program as a JAR file, follow these steps:
+### Create Manifest.txt file
 
-1. Compile the program into `.class` files using the following command:
-
-```
-javac MainApp.java
-```
-
-2. Create a text file named `Manifest.txt` and specify the program's entry class in it. As follows:
+Create a text file called Manifest.txt with the following content:
 
 ```
 Main-Class: MainApp
+Class-Path: ../lib/jackson/jackson-core-2.15.2.jar ../lib/jackson/jackson-databind-2.15.2.jar ../lib/jackson/jackson-annotations-2.15.2 .jar
 ```
 
-3. Package the program as a JAR file using the following command:
+### Create a temporary directory and copy third-party library files
+
+Execute the following command in a terminal to create a temporary directory and copy the third-party library files into it:
 
 ```
-jar -cvmf ./Manifest.txt ../your-app.jar *.class
+mkdir tmp;
+cp -r ../lib/jackson/*.jar tmp/
 ```
 
-Replace `your-app.jar` with the desired name for your JAR file, and `*.class` includes all compiled `.class` files.
+### Create a JAR file and package the third-party library file
 
-4. Run the JAR program with the following command:
+Use the following command to create a JAR file and package the third-party library files in the temporary directory:
 
 ```
-java -jar ../app.jar
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*. class -C tmp/ .
+```
+
+## Run the JAR file
+
+Run the JAR file with the following command:
+
+```
+java -jar YourProjectName.jar
 ```
 
 <hr>
@@ -55,33 +62,40 @@ java -jar ../app.jar
 - 支持 GIF 动态显示。
 - 支持图片缩放。
 - 切换上一张和下一张图片的快捷键：左右箭头、上下箭头、Page Up 和 Page Down。
+- 支持查看图片列表
 
-## 如何打包为 JAR 文件
+## 打包和运行 Java Swing 项目的步骤
 
-要将程序打包为 JAR 文件，请按照以下步骤操作：
+### 创建 Manifest.txt 文件
 
-1. 使用以下命令将程序编译为 `.class` 文件：
-
-```
-javac MainApp.java
-```
-
-2. 创建一个名为 `Manifest.txt` 的文本文件，并在其中指定程序的入口类，如下：
+创建一个名为 Manifest.txt 的文本文件，其中包含以下内容：
 
 ```
 Main-Class: MainApp
+Class-Path: ../lib/jackson/jackson-core-2.15.2.jar ../lib/jackson/jackson-databind-2.15.2.jar ../lib/jackson/jackson-annotations-2.15.2.jar
 ```
 
-3. 使用以下命令将程序打包为 JAR 文件：
+### 创建临时目录并复制第三方库文件
+
+在终端中执行以下命令，创建一个临时目录并将第三方库文件复制到该目录中：
 
 ```
-jar -cvmf ./Manifest.txt ../app.jar *.class
+mkdir tmp;
+cp -r ../lib/jackson/*.jar tmp/
 ```
 
-`*.class` 表示包含所有编译后的 `.class` 文件。
+### 创建 JAR 文件并打包第三方库文件
 
-4. 使用以下命令运行 JAR 程序：
+使用以下命令创建 JAR 文件，并将临时目录中的第三方库文件一并打包进去：
 
 ```
-java -jar ../app.jar
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class -C tmp/ .
+```
+
+## 运行 JAR 文件
+
+使用以下命令运行 JAR 文件：
+
+```
+java -jar YourProjectName.jar
 ```

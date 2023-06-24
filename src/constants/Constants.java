@@ -4,26 +4,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Constants {
+  public final static String FRAME_TITLE = "Bowser Album";
+
   public static String recycle_path = "recycle";
 
-  public static String json_folder_path = "../temporary";
-
-  public static String img_json_file = "Picture.json";
-
-  public static String scale_json_file = "ScaleFactor.json";
-
   /**
-   * 放大
+   * 放大(其本身也是开关量)
    */
   public static final Double zoom_in_decision = 1.1;
 
   /**
-   * 缩小
+   * 缩小(其本身也是开关量)
    */
   public static final Double zoom_out_decision = 0.9;
 
   /**
-   * 扩大的上限
+   * 放大的上限
    */
   public static final double zoom_upper_limit = 1.9;
 

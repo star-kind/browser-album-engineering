@@ -66,7 +66,7 @@ public class PreponderantFrame {
 
   public void createFrame() {
     this.frameData = new FrameValueObject();
-    this.frameData.frame = new JFrame("Main Component");
+    this.frameData.frame = new JFrame(Constants.FRAME_TITLE);
     this.frameData.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frameData.frame.setFocusable(true);
     this.frameData.frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // 设置窗口最大化
@@ -90,7 +90,7 @@ public class PreponderantFrame {
     OpenPictureListenerHelper open = new OpenPictureListenerHelper();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem openPicItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
+    JMenuItem openPicItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_OPEN_PICTURE, frameData);
 
     ActionListener openPictureListener = new ActionListener() {
@@ -118,7 +118,7 @@ public class PreponderantFrame {
     ZoomImgListener listener = new ZoomImgListener();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem zoomInMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_0,
+    JMenuItem zoomInMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
         MenuBarConstants.MENU_ITEM_ZOOM_IN, frameData);
 
     zoomInMenuItem.addActionListener(new ActionListener() {
@@ -147,7 +147,7 @@ public class PreponderantFrame {
     ZoomImgListener listener = new ZoomImgListener();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem outMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_0,
+    JMenuItem outMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
         MenuBarConstants.MENU_ITEM_ZOOM_OUT, frameData);
 
     outMenuItem.addActionListener(new ActionListener() {
@@ -176,7 +176,7 @@ public class PreponderantFrame {
     ZoomImgListener listener = new ZoomImgListener();
 
     GetTargetMenuItem t = new GetTargetMenuItem();
-    JMenuItem menuItem = t.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_0,
+    JMenuItem menuItem = t.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
         MenuBarConstants.MENU_ITEM_ZOOM_RECONVERION, frameData);
 
     menuItem.addActionListener(new ActionListener() {
@@ -207,7 +207,7 @@ public class PreponderantFrame {
   public void bindPrevNavEvent() {
     JPanel panel = frameData.basePanel;
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem prevMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
+    JMenuItem prevMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_3,
         MenuBarConstants.MENU_ITEM_PREVIOUS, frameData);
     NavigationPicListener nav = new NavigationPicListener();
 
@@ -234,7 +234,7 @@ public class PreponderantFrame {
   public void bindNextNavEvent() {
     JPanel panel = frameData.basePanel;
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem nextMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
+    JMenuItem nextMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_3,
         MenuBarConstants.MENU_ITEM_NEXT, frameData);
     NavigationPicListener nav = new NavigationPicListener();
 
@@ -266,7 +266,7 @@ public class PreponderantFrame {
     PicsCollectListener p = new PicsCollectListener();
     GetTargetMenuItem target = new GetTargetMenuItem();
 
-    JMenuItem listItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
+    JMenuItem listItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_4,
         MenuBarConstants.MENU_ITEM_EXAMINE_LIST, frameData);
 
     ActionListener listPictureListener = new ActionListener() {
@@ -290,7 +290,7 @@ public class PreponderantFrame {
 
   public void bindDeleteEvent() {
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem deleteMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
+    JMenuItem deleteMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_DELETE, frameData);
 
     // 设置快捷键 Delete
@@ -321,7 +321,7 @@ public class PreponderantFrame {
     SelectDirectoryListener select = new SelectDirectoryListener();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_SELECT_DIRECTORY, frameData);
 
     // 设置快捷键
@@ -351,7 +351,7 @@ public class PreponderantFrame {
     InputPathListener listener = new InputPathListener();
 
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
         MenuBarConstants.MENU_ITEM_INPUT_PATH, frameData);
 
     // 设置快捷键
@@ -430,7 +430,7 @@ public class PreponderantFrame {
   public void bindFilePropertyEvent() {
     TrawlImgDetailListener listener = new TrawlImgDetailListener();
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_2,
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_4,
         MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, frameData);
 
     String key = "FilePropertyAction";
@@ -458,7 +458,7 @@ public class PreponderantFrame {
   public void bindSlidePlayEvent() {
     JPanel panel = frameData.basePanel;
     GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_3,
         MenuBarConstants.MENU_ITEM_SLIDE_PLAY, frameData);
 
     SlidePlayListener listener = new SlidePlayListener();

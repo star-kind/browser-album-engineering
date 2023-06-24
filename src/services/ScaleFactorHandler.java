@@ -1,84 +1,44 @@
 package services;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import entities.*;
-import json.JsonFileHandler;
 import constants.*;
 
 public class ScaleFactorHandler {
-  public Double processDecision(Double decision) throws IOException {
-    JsonFileHandler handler = new JsonFileHandler();
-    Path filePath = Constants.getConflatePath(Constants.json_folder_path, Constants.scale_json_file);
+  public static double zoom_out_factor = 1.1;
+  public static double zoom_in_factor = 0.9;
 
-    if (!Files.exists(filePath)) {
-      // 第一次对图片进行缩放
-      return firstTimeScaling(decision, handler);
-    } else {
-      // 文件已存在，更新缩放因子
-      return updateScalingFactor(decision, handler, filePath.toString());
-    }
+  public Double processDecision(Double decision) {
+    return updateScalingFactor(decision);
   }
 
-  public Double firstTimeScaling(Double decision, JsonFileHandler jsHandler) {
-    ScaleFactorObj obj = new ScaleFactorObj();
-    obj.setInScaleFactor(Constants.zoom_in_decision);
-    obj.setOutScaleFactor(Constants.zoom_out_decision);
-    try {
-      jsHandler.writeJsonToFile(obj, Constants.json_folder_path,
-          Constants.scale_json_file);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return decision;
-  }
-
-  public Double updateScalingFactor(Double decision, JsonFileHandler jsHandler, String filePath) throws IOException {
-    ScaleFactorObj scaleFactorObj;
+  public Double updateScalingFactor(Double decision) {
     Double calculate = 1.0;
 
-    try {
-      scaleFactorObj = (ScaleFactorObj) jsHandler.getConvertObject(filePath, ScaleFactorObj.class);
-    } catch (Exception e) {
-      File file = new File(filePath);
-      file.delete();
-      return firstTimeScaling(decision, jsHandler);
-    }
-
     if (decision.equals(Constants.zoom_in_decision)) {
-      scaleFactorObj = calculateInFactor(scaleFactorObj, decision);
-      calculate = scaleFactorObj.getInScaleFactor();
+      calculateZoomInFactor(decision);
+      calculate = zoom_in_factor;
 
     } else if (decision.equals(Constants.zoom_out_decision)) {
-      scaleFactorObj = calculateOutFactor(scaleFactorObj, decision);
-      calculate = scaleFactorObj.getOutScaleFactor();
+      calculateZoomOutFactor(decision);
+      calculate = zoom_out_factor;
 
     }
 
-    jsHandler.writeJsonToFile(scaleFactorObj, Constants.json_folder_path, Constants.scale_json_file);
+    System.out.println(this + " updateScalingFactor calculate=" + calculate);
     return calculate;
   }
 
-  public ScaleFactorObj calculateInFactor(ScaleFactorObj scaleFactorObj, Double decision) {
-    if (scaleFactorObj.getInScaleFactor() > Constants.zoom_upper_limit) {
-      scaleFactorObj.setInScaleFactor(Constants.zoom_upper_limit);
-    } else {
-      decision = scaleFactorObj.getInScaleFactor() * decision;
-      scaleFactorObj.setInScaleFactor(decision);
+  public void calculateZoomInFactor(Double decision) {
+    zoom_in_factor = decision * zoom_in_factor;
+    if (zoom_in_factor > Constants.zoom_upper_limit) {
+      zoom_in_factor = Constants.zoom_upper_limit;
     }
-    return scaleFactorObj;
   }
 
-  public ScaleFactorObj calculateOutFactor(ScaleFactorObj scaleFactorObj, Double decision) {
-    if (scaleFactorObj.getOutScaleFactor() < Constants.zoom_lower_limit) {
-      scaleFactorObj.setOutScaleFactor(Constants.zoom_lower_limit);
-    } else {
-      decision = scaleFactorObj.getOutScaleFactor() * decision;
-      scaleFactorObj.setOutScaleFactor(decision);
+  public void calculateZoomOutFactor(Double decision) {
+    zoom_out_factor = decision * zoom_out_factor;
+    if (zoom_out_factor < Constants.zoom_lower_limit) {
+      zoom_out_factor = Constants.zoom_lower_limit;
     }
-    return scaleFactorObj;
   }
 
 }

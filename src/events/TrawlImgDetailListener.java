@@ -29,30 +29,48 @@ public class TrawlImgDetailListener {
   }
 
   public void fileDetailsDialog(Frame parent, String filePath, int index) {
-    System.out.println(this + " fileDetailsDialog=" + filePath);
-
-    JDialog jd = new JDialog(parent, "File Details", true);
-    jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-    jd.setSize(600, 260);
-    jd.setLocationRelativeTo(null); // 设置对话框居中显示
-
-    JTextArea textArea = new JTextArea();
-    textArea.setEditable(false);
-    textArea.setFont(textArea.getFont().deriveFont(20f)); // 设置文本字体大小为 16
-
-    JScrollPane scrollPane = new JScrollPane(textArea);
+    JDialog jd = createDialog(parent);
+    JTextArea textArea = createTextArea();
+    JScrollPane scrollPane = createScrollPane(textArea);
     jd.add(scrollPane, BorderLayout.CENTER);
 
+    displayFileDetails(textArea, filePath, index);
+
+    jd.setVisible(true);
+  }
+
+  public JDialog createDialog(Frame parent) {
+    JDialog jd = new JDialog(parent, "File Details", true);
+    jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    jd.setSize(600, 400);
+    jd.setLocationRelativeTo(null);
+    return jd;
+  }
+
+  public JTextArea createTextArea() {
+    JTextArea textArea = new JTextArea();
+    textArea.setEditable(false);
+    textArea.setFont(textArea.getFont().deriveFont(20f));
+    textArea.setLineWrap(true); // 设置自动换行
+    textArea.setWrapStyleWord(true); // 设置按词边界换行
+    return textArea;
+  }
+
+  public JScrollPane createScrollPane(JTextArea textArea) {
+    JScrollPane scrollPane = new JScrollPane(textArea);
+    return scrollPane;
+  }
+
+  public void displayFileDetails(JTextArea textArea, String filePath, int index) {
     File file = new File(filePath);
     if (file.exists()) {
-
       StringBuilder sb = new StringBuilder();
-      sb.append("Current Index: ").append(index).append("\n");
-      sb.append("File Name: ").append(file.getName()).append("\n");
-      sb.append("Absolute Path: ").append(file.getAbsolutePath()).append("\n");
-      sb.append("Size: ").append(file.length() / 1024).append(" KiloBytes").append("\n");
-      sb.append("Is Directory: ").append(file.isDirectory()).append("\n");
-      sb.append("Is File: ").append(file.isFile()).append("\n");
+      sb.append("Current Index: ").append(index).append("\n\n");
+      sb.append("File Name: ").append(file.getName()).append("\n\n");
+      sb.append("Absolute Path: ").append(file.getAbsolutePath()).append("\n\n");
+      sb.append("Size: ").append(file.length() / 1024).append(" KiloBytes").append("\n\n");
+      sb.append("Is Directory: ").append(file.isDirectory()).append("\n\n");
+      sb.append("Is File: ").append(file.isFile()).append("\n\n");
 
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       sb.append("Last Modified: ").append(dateFormat.format(file.lastModified())).append("\n");
@@ -61,6 +79,6 @@ public class TrawlImgDetailListener {
     } else {
       textArea.setText("File does not exist.");
     }
-    jd.setVisible(true); // 显示对话框
   }
+
 }

@@ -4,26 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import java.io.File;
-import java.io.IOException;
-
 import constants.Constants;
-import entities.ImageValueObject;
-import json.JsonFileHandler;
 
 public class ImageUtil {
-  public void injectValObj2JsonFile(ImageValueObject imgVal) {
-    if (imgVal != null) {
-      JsonFileHandler jfHandler = new JsonFileHandler();
-      try {
-        jfHandler.writeJsonToFile(imgVal, Constants.json_folder_path, Constants.img_json_file);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    } else {
-      System.out.println(this + " ImageValueObject imgVal is NULL");
-    }
-  }
-
   public ImageIcon createImageIcon(String imagePath) {
     File imageFile = new File(imagePath);
 

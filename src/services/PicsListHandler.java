@@ -40,6 +40,7 @@ public class PicsListHandler {
           if (selectedIndex >= 0) {
             OpenPhotoHandler photo = new OpenPhotoHandler();
             photo.openPhoto(obj, imagesUrlArray[selectedIndex]);
+            obj.getImageValObj().setCurrentOrder(selectedIndex);// update picture index
           }
         }
       }
@@ -57,6 +58,7 @@ public class PicsListHandler {
           if (selectedIndex >= 0) {
             OpenPhotoHandler photo = new OpenPhotoHandler();
             photo.openPhoto(obj, imagesUrlArray[selectedIndex]);
+            obj.getImageValObj().setCurrentOrder(selectedIndex);// update picture index
           }
         }
       }
