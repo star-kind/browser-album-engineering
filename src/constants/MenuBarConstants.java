@@ -11,20 +11,22 @@ public class MenuBarConstants {
   public static final String MENU_ITEM_SELECT_DIRECTORY = "Select Directory";
   public static final String MENU_ITEM_INPUT_PATH = "Enter Path";
 
+  public static final String MENU_ITEM_SLIDE_PLAY = "Slide play (F5:On / F9:Stop)";
+
   /**
    * 开播幻灯片
    */
-  public static final String MENU_ITEM_SLIDE_START = "Slide Play Start";
+  // public static final String MENU_ITEM_SLIDE_START = "Slide Play Start";
 
-  /**
-   * 停播幻灯片
-   */
-  public static final String MENU_ITEM_SLIDE_STOP = "Slide Play Stop";
+  // /**
+  // * 停播幻灯片
+  // */
+  // public static final String MENU_ITEM_SLIDE_STOP = "Slide Play Stop";
 
   /**
    * 上一张
    */
-  public static final String MENU_ITEM_PREVIOUS = "Previous ( Left / Up / Page Up)";
+  public static final String MENU_ITEM_PREVIOUS = "Previous (Left / Up / Page Up)";
 
   /**
    * 下一张
@@ -69,9 +71,9 @@ public class MenuBarConstants {
   /**
    * Switch Picture
    */
-  public static String[] MENU_ITEM_ARRAY_1 = { MENU_ITEM_SLIDE_START,
-      MENU_ITEM_SLIDE_STOP, MENU_ITEM_PREVIOUS,
-      MENU_ITEM_NEXT };
+  public static String[] MENU_ITEM_ARRAY_1 = {
+      MENU_ITEM_SLIDE_PLAY,
+      MENU_ITEM_NEXT, MENU_ITEM_PREVIOUS };
 
   /**
    * Infomation

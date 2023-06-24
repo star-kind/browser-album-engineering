@@ -1,29 +1,37 @@
 package services;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import constants.Constants;
 import entities.FrameValueObject;
 
 public class SlidePlayHandler {
-  public void startSlideShow(FrameValueObject obj, File[] imageFilesArr, OpenPhotoHandler photo) {
-    boolean switchSlide = obj.getSlideLantern().getSwitchSlide();
-    judgeSwitchSlide(switchSlide);
+  public volatile AtomicBoolean slideFlag;
+  public Thread slideshowThread;
+
+  public SlidePlayHandler() {
+    slideFlag = new AtomicBoolean(Constants.stop_slide_play);
+  }
+
+  public void startSlideShow(FrameValueObject obj, File[] imageFilesArr, OpenPhotoHandler photo, boolean checkSign) {
+    slideFlag.set(checkSign);
 
     // 判断是否有图片可供播放
     if (imageFilesArr != null && imageFilesArr.length > 0) {
       // 创建并启动一个后台线程来执行幻灯片播放
-      Thread slideshowThread = new Thread(new Runnable() {
+      slideshowThread = new Thread(new Runnable() {
         @Override
         public void run() {
           int interval = obj.getSlideLantern().getDelay();
           try {
-            while (switchSlide == true) { // 检查标志位是否为true
+
+            while (slideFlag.get() == true) { // 检查标志位是否为true
               showNextImage(obj, imageFilesArr, photo);// 显示下一张图片
               Thread.sleep(interval); // 暂停一段时间
-
             }
           } catch (InterruptedException e) {
-            System.out.println("interrupte_thread");// 线程被异常中断，退出幻灯片播放
+            System.out.println(this + " interrupte thread");// 线程被异常中断，退出幻灯片播放
           }
         }
       });
@@ -31,24 +39,28 @@ public class SlidePlayHandler {
     }
   }
 
-  // 判断是否决定播放幻灯片
-  public void judgeSwitchSlide(boolean switchSlide) {
-    System.out.println(this + " judgeSwitchSlide: " + switchSlide);
-    if (switchSlide == false) {
-      return; // 直接中止
+  public void stopSlideShow() {
+    slideFlag.set(Constants.stop_slide_play);
+    if (slideshowThread != null) {
+      System.out.println(this + " stopSlideShow.");
+      slideshowThread.interrupt(); // 中断线程以退出幻灯片播放
     }
   }
 
   public void showNextImage(FrameValueObject obj, File[] imageFilesArr, OpenPhotoHandler photo) {
+    System.out.println(this + " showNextImage Origin slideFlag=" + slideFlag.get());
+
     int currentIndex = obj.getImageValObj().getCurrentOrder();
-    System.out.println(this + " showNextImage-currentIndex Init=" + currentIndex);
 
     if (imageFilesArr != null && imageFilesArr.length > 0) {
-      currentIndex = (currentIndex + 1) % imageFilesArr.length;
-      System.out.println(this + " showNextImage-currentIndex Latest=" + currentIndex);
+      int updateIndex = (currentIndex + 1) % imageFilesArr.length;
+      System.out.println(this + " showNextImage updateIndex=" + currentIndex);
+      obj.getImageValObj().setCurrentOrder(updateIndex);
 
-      String path = imageFilesArr[currentIndex].getAbsolutePath();
-      photo.openPhoto(obj, path);// TODO showNextImage
+      if (slideFlag.get() == Constants.start_slide_play) {
+        String path = imageFilesArr[currentIndex].getAbsolutePath();
+        photo.openPhoto(obj, path);
+      }
     }
   }
 }

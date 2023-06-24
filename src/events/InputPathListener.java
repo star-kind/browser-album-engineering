@@ -62,6 +62,7 @@ public class InputPathListener {
 
   public void exectuteOpen(FrameValueObject frameJO, ImageValueObject vo, JButton openButton,
       OpenPhotoHandler photoHandler) {
+
     frameJO.setImageValObj(vo);
     photoHandler.openPhoto(frameJO, vo.getCurrentPath());
 

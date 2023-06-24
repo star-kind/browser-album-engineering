@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 import constants.MenuBarConstants;
 import entities.FrameValueObject;
 import entities.PopUpValueObject;
+import events.RevampDelayTimeListener;
 import events.TrawlImgDetailListener;
 
 public class PopUpMenuComponent {
@@ -21,30 +22,12 @@ public class PopUpMenuComponent {
     Font fontConfig = new Font("Arial", Font.BOLD, 16);
     Dimension popupSize = new Dimension(200, 150);
 
-    // JMenuItem menuItem1 =
-    // createMenuItem(MenuBarConstants.MENU_ITEM_CHECK_PROPERTIES, fontConfig);
-    // menuItem1.addActionListener(new ActionListener() {
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // TrawlImgDetailListener listener = new TrawlImgDetailListener();
-    // listener.checkDetail(frameVal);
-    // }
-    // });
-
-    // JMenuItem menuItem3 = createMenuItem("Test 3", fontConfig);
-    // menuItem3.addActionListener(new ActionListener() {
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // doSomething(333);
-    // }
-    // });
-
     JMenuItem menuItem1 = trawlDetailItem(fontConfig, frameVal);
-    JMenuItem menuItem2 = test2(fontConfig);
+    JMenuItem menuItem2 = revampDelayTime(fontConfig, frameVal);
     JMenuItem menuItem3 = test3(fontConfig);
 
     popupMenu.add(menuItem1);
-    popupMenu.add(menuItem2);
+    popupMenu.add(menuItem2, frameVal);
     popupMenu.add(menuItem3);
     popupMenu.setPreferredSize(popupSize);
 
@@ -66,12 +49,14 @@ public class PopUpMenuComponent {
     return menuItem1;
   }
 
-  public JMenuItem test2(Font fontConfig) {
-    JMenuItem menuItem2 = createMenuItem("Test 2", fontConfig);
+  public JMenuItem revampDelayTime(Font fontConfig, FrameValueObject frameVal) {
+    JMenuItem menuItem2 = createMenuItem("Modify delay", fontConfig);
+
+    RevampDelayTimeListener listener = new RevampDelayTimeListener();
     menuItem2.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        doSomething(222);
+        listener.revampTime(frameVal);
       }
     });
     return menuItem2;
@@ -82,7 +67,7 @@ public class PopUpMenuComponent {
     menuItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        doSomething(333);
+        System.out.println(this + " test3");
       }
     });
     return menuItem;
@@ -106,7 +91,4 @@ public class PopUpMenuComponent {
     popupMenu.show(component, x, y);
   }
 
-  public void doSomething(int arg) {
-    System.out.println(this + " Doing something... " + arg);
-  }
 }

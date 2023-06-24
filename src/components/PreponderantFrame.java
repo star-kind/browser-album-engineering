@@ -34,8 +34,7 @@ public class PreponderantFrame {
     bindPrevNavEvent();
     bindNextNavEvent();
 
-    bindStartPlayEvent();// TODO slide playing
-    bindStopPlayEvent();
+    bindSlidePlayEvent();
 
     bindShowImageListEvent();
 
@@ -74,8 +73,10 @@ public class PreponderantFrame {
   }
 
   public void createLabel() {
-    ImageLabelComponent component = new ImageLabelComponent();
-    this.frameData.imageLabel = component.createImageLabel();
+    JLabel label = new JLabel();
+    label.setHorizontalAlignment(JLabel.CENTER);
+    label.setPreferredSize(new Dimension(800, 600)); // 设置固定尺寸
+    this.frameData.imageLabel = label;
   }
 
   public void createBasePanel() {
@@ -287,63 +288,6 @@ public class PreponderantFrame {
     listItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
   }
 
-  public void bindStartPlayEvent() {
-    String key = "StartPlayAction";
-    KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0);
-
-    GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem startItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
-        MenuBarConstants.MENU_ITEM_SLIDE_START, frameData);
-
-    SlidePlayListener slide = new SlidePlayListener();
-
-    ActionListener startListener = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        slide.autoPlaying(frameData, Constants.start_slide_play);
-      }
-    };
-
-    startItem.addActionListener(startListener);
-    startItem.setAccelerator(keyStroke);
-    startItem.getActionMap().put(key, new AbstractAction() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        slide.autoPlaying(frameData, Constants.start_slide_play);
-      }
-    });
-
-    startItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
-  }
-
-  public void bindStopPlayEvent() {
-    String key = "StopPlayAction";
-    KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_F9, 0);
-
-    GetTargetMenuItem target = new GetTargetMenuItem();
-    JMenuItem stopItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
-        MenuBarConstants.MENU_ITEM_SLIDE_STOP, frameData);
-    SlidePlayListener slide = new SlidePlayListener();
-
-    ActionListener stopListener = new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        slide.autoPlaying(frameData, Constants.stop_slide_play);
-      }
-    };
-
-    stopItem.addActionListener(stopListener);
-    stopItem.setAccelerator(keyStroke);
-    stopItem.getActionMap().put(key, new AbstractAction() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        slide.autoPlaying(frameData, Constants.stop_slide_play);
-      }
-    });
-
-    stopItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
-  }
-
   public void bindDeleteEvent() {
     GetTargetMenuItem target = new GetTargetMenuItem();
     JMenuItem deleteMenuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE,
@@ -509,6 +453,43 @@ public class PreponderantFrame {
     });
 
     menuItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, key);
-    // menuItem.requestFocus(); // 将焦点设置在菜单项上
+  }
+
+  public void bindSlidePlayEvent() {
+    JPanel panel = frameData.basePanel;
+    GetTargetMenuItem target = new GetTargetMenuItem();
+    JMenuItem menuItem = target.getDesignateMenuItem(MenuBarConstants.MENU_TITLE_1,
+        MenuBarConstants.MENU_ITEM_SLIDE_PLAY, frameData);
+
+    SlidePlayListener listener = new SlidePlayListener();
+
+    menuItem.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        boolean flag = frameData.getSlideLantern().getSwitchSlide();
+        System.out.println(this + " bindSlidePlayEvent FLAG=" + flag);
+
+        if (flag == Constants.stop_slide_play) {
+          listener.autoPlaying(frameData, Constants.start_slide_play);
+        } else if (flag == Constants.start_slide_play) {
+          listener.autoPlaying(frameData, Constants.stop_slide_play);
+        }
+
+      }
+    });
+
+    panel.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_F9) {
+          listener.autoPlaying(frameData, Constants.stop_slide_play);
+        } else if (keyCode == KeyEvent.VK_F5) {
+          listener.autoPlaying(frameData, Constants.start_slide_play);
+        }
+      }
+    });
+    // 确保面板获得焦点
+    panel.requestFocusInWindow();
   }
 }

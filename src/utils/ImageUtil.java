@@ -51,8 +51,7 @@ public class ImageUtil {
   public Map<String, Integer> getImgOriginSize(ImageIcon currentIcon) {// 获取当前图片大小
     int originalWidth = currentIcon.getIconWidth();
     int originalHeight = currentIcon.getIconHeight();
-    System.out.println(this.getClass() + " OriginalSize:" + originalWidth + " x " +
-        originalHeight);
+
     Map<String, Integer> mp = new HashMap<>();
     mp.put(Constants.img_size_width_key, originalWidth);
     mp.put(Constants.img_size_height_key, originalHeight);

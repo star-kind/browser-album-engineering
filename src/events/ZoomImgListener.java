@@ -62,6 +62,8 @@ public class ZoomImgListener {
       // 获取当前图片大小
       int originalWidth = util.getImgOriginSize(currentIcon).get(Constants.img_size_width_key);
       int originalHeight = util.getImgOriginSize(currentIcon).get(Constants.img_size_height_key);
+      System.out.println(this + " OriginalSize:" + originalWidth + " x " +
+          originalHeight);
 
       // 创建缩放后的图片
       Image brandNewImg = currentIcon.getImage().getScaledInstance(originalWidth, originalHeight, Image.SCALE_SMOOTH);

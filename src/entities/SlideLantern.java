@@ -1,7 +1,7 @@
 package entities;
 
 public class SlideLantern {
-  public Boolean switchSlide;
+  public volatile Boolean switchSlide;
   public Integer delay;
 
   public Integer getDelay() {
