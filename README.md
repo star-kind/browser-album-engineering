@@ -37,7 +37,7 @@ cp -r ../lib/jackson/*.jar tmp/
 Use the following command to create a JAR file and package the third-party library files in the temporary directory:
 
 ```
-jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*. class -C tmp/ .
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class -C tmp/ .
 ```
 
 ## Run the JAR file
