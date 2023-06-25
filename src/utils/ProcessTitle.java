@@ -1,10 +1,8 @@
 package utils;
 
-import java.io.File;
-
 public class ProcessTitle {
   public String[] getSplitsArr(String str) {
-    String arr[] = str.split(File.separator);
+    String arr[] = str.split("\\\\");
     return arr;
   }
 
