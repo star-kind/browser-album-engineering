@@ -16,15 +16,23 @@ public class OpenPhotoHandler {
     unfoldPhoto(obj.getBasePanel(), obj.getImageLabel(), imagePath);
     updateInterfaceTitle(obj, imagePath);
 
-    System.out.println(this + " Show ImagePath:" + imagePath);
-    System.out.println(this + " Show Index:" + obj.getImageValObj().getCurrentOrder());
+    System.out.println(this + " ShowImageValObj:" + obj.getImageValObj().toString());
     return obj;
   }
 
   public void updateInterfaceTitle(FrameValueObject obj, String imagePath) {
     ProcessTitle p = new ProcessTitle();
     String title = p.getSingleTitle(imagePath);
-    obj.getFrame().setTitle(title);
+    StringBuffer buffer = new StringBuffer();
+
+    buffer.append("[");
+    buffer.append(obj.getImageValObj().currentOrder + 1);
+    buffer.append(" / ");
+    buffer.append(obj.getImageValObj().currentPathsArray.length);
+    buffer.append("] ");
+    buffer.append(title);
+
+    obj.getFrame().setTitle(buffer.toString());
   }
 
   public void unfoldPhoto(JPanel panel, JLabel imageLabel, String imagePath) {

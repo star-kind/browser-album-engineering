@@ -38,7 +38,7 @@ public class ImageValueObject {
 
   @Override
   public String toString() {
-    arrayShow();
+    // arrayShow();
     return "{" +
         " currentOrder='" + getCurrentOrder() + "'" +
         ", currentPath='" + getCurrentPath() + "'" +
