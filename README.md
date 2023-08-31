@@ -4,7 +4,7 @@ This is a Java Swing-based image viewer program that supports users to browse im
 
 ## Features
 
-- Java version: "16.0.1" (Make sure you have installed and configured the corresponding JDK environment).
+- Java version: "11.0.2" (Make sure you have installed and configured the corresponding JDK environment).
 - Supports slideshow mode.
 - Automatically opens all images in the specified directory (including subfolders).
 - Support GIF dynamic display.
@@ -19,17 +19,8 @@ This is a Java Swing-based image viewer program that supports users to browse im
 Create a text file called Manifest.txt with the following content:
 
 ```
+Manifest-Version: 1.0
 Main-Class: MainApp
-Class-Path: ../lib/jackson/jackson-core-2.15.2.jar ../lib/jackson/jackson-databind-2.15.2.jar ../lib/jackson/jackson-annotations-2.15.2 .jar
-```
-
-### Create a temporary directory and copy third-party library files
-
-Execute the following command in a terminal to create a temporary directory and copy the third-party library files into it:
-
-```
-mkdir tmp;
-cp -r ../lib/jackson/*.jar tmp/
 ```
 
 ### Create a JAR file and package the third-party library file
@@ -37,7 +28,7 @@ cp -r ../lib/jackson/*.jar tmp/
 Use the following command to create a JAR file and package the third-party library files in the temporary directory:
 
 ```
-jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class -C tmp/ .
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class
 ```
 
 ## Run the JAR file
@@ -56,7 +47,7 @@ java -jar YourProjectName.jar
 
 ## 功能特点
 
-- Java 版本： "16.0.1"（请确保已安装和配置相应版本的 JDK 环境）。
+- Java 版本： "11.0.2"（请确保已安装和配置相应版本的 JDK 环境）。
 - 支持幻灯片模式。
 - 自动打开指定目录下的全部图片（包括子文件夹）。
 - 支持 GIF 动态显示。
@@ -72,7 +63,6 @@ java -jar YourProjectName.jar
 
 ```
 Main-Class: MainApp
-Class-Path: ../lib/jackson/jackson-core-2.15.2.jar ../lib/jackson/jackson-databind-2.15.2.jar ../lib/jackson/jackson-annotations-2.15.2.jar
 ```
 
 ### 创建临时目录并复制第三方库文件
@@ -89,7 +79,7 @@ cp -r ../lib/jackson/*.jar tmp/
 使用以下命令创建 JAR 文件，并将临时目录中的第三方库文件一并打包进去：
 
 ```
-jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class -C tmp/ .
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class
 ```
 
 ## 运行 JAR 文件
