@@ -24,11 +24,9 @@ public class PopUpMenuComponent {
 
     JMenuItem menuItem1 = trawlDetailItem(fontConfig, frameVal);
     JMenuItem menuItem2 = revampDelayTime(fontConfig, frameVal);
-    JMenuItem menuItem3 = test3(fontConfig);
 
     popupMenu.add(menuItem1);
     popupMenu.add(menuItem2, frameVal);
-    popupMenu.add(menuItem3);
     popupMenu.setPreferredSize(popupSize);
 
     PopUpValueObject popUpObj = new PopUpValueObject();
@@ -60,17 +58,6 @@ public class PopUpMenuComponent {
       }
     });
     return menuItem2;
-  }
-
-  public JMenuItem test3(Font fontConfig) {
-    JMenuItem menuItem = createMenuItem("Test 3", fontConfig);
-    menuItem.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.out.println(this + " test3");
-      }
-    });
-    return menuItem;
   }
 
   public JMenuItem createMenuItem(String text, Font font) {

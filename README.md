@@ -29,7 +29,7 @@ Use the following command to create a JAR file and package the third-party libra
 
 ```
 
-jar cvf YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class
 
 ```
 
@@ -40,6 +40,21 @@ Run the JAR file with the following command:
 ```
 java -jar YourProjectName.jar
 ```
+
+## Resolve Packing Error
+
+```
+java - jar YourProjectName.jar
+There is no main manifest attribute in YourProjectName.jar
+```
+
+Edit 'META-INF/MANIFEST. MF' in YourProjectName.jar using winrar and add at the end:
+
+```
+Main Class: MainApp
+```
+
+Then overwrite and save
 
 <hr>
 
@@ -73,7 +88,7 @@ Main-Class: MainApp
 
 ```
 
-jar cvf YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class
+jar cvfm YourProjectName.jar Manifest.txt *.class components/*.class constants/*.class entities/*.class events/*.class services/*.class utils/*.class
 
 ```
 
@@ -84,3 +99,21 @@ jar cvf YourProjectName.jar Manifest.txt *.class components/*.class constants/*.
 ```
 java -jar YourProjectName.jar
 ```
+
+## 解决打包报错
+
+```
+java - jar YourProjectName.jar
+There is no main manifest attribute in YourProjectName.jar
+```
+
+用 winrar 编辑 YourProjectName.jar 中的"META-INF/MANIFEST.MF", 在其末尾加上:
+
+```
+Main-Class: MainApp
+
+```
+
+然后覆盖保存
+
+<hr>
