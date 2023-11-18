@@ -9,5 +9,7 @@
 # Ignore all text files
 *.txt
 
+*.jar
+
 # Except for myfile.txt
 !src/Manifest.txt
